@@ -1,0 +1,39 @@
+# ============================================================================
+#  Render.com Blueprint — "New +" → "Blueprint" bilan bir tugmada deploy.
+#  Web servis (Next.js) + boshqariladigan PostgreSQL avtomatik yaratiladi.
+# ============================================================================
+services:
+  - type: web
+    name: natiq-academy
+    runtime: node
+    plan: free
+    region: frankfurt          # Oʻzbekistonga yaqinroq
+    buildCommand: npm ci && npx prisma generate && npm run build
+    # Birinchi deployda jadvallarni sxemadan yaratadi (migratsiya tarixisiz).
+    # Ishlab chiqarish uchun keyin `prisma migrate deploy` ga oʻting.
+    startCommand: npx prisma db push --skip-generate && npm start
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: natiq-db
+          property: connectionString
+      - key: NODE_ENV
+        value: production
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: TELEGRAM_WEBHOOK_SECRET
+        generateValue: true
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false            # Render dashboard'da qoʻlda kiritasiz
+      - key: APP_URL
+        sync: false            # masalan: https://natiq-academy.onrender.com
+
+databases:
+  - name: natiq-db
+    plan: free
+    databaseName: natiq
+    user: natiq
+
+# Eslatma: Redis va S3 (MinIO) Render'da alohida qoʻshiladi (Key Value / tashqi
+# S3). Skelet ularsiz ham ishga tushadi; kerak boʻlganda .env'ga qoʻshing.
