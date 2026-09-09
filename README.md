@@ -41,7 +41,7 @@ Loyiha Render Blueprint (`render.yaml`) bilan bir tugmada joylashtiriladi.
    `TELEGRAM_BOT_TOKEN` ni Render dashboard → Environment'da kiriting.
 
 Kirish: super admin — telefon `+998900000000`, parol `admin123` (skelet;
-ishlab chiqarishdan oldin argon2 hash'ga oʻting va parolni almashtiring).
+ishlab chiqarishdan oldin bcrypt hash'ga oʻting va parolni almashtiring).
 
 > Jadvallar birinchi deployda `prisma db push` orqali sxemadan yaratiladi.
 > Ishlab chiqarish uchun migratsiyaga oʻting: lokalda `npx prisma migrate dev
@@ -82,7 +82,7 @@ src/
   joyida; tizimni qayta qurish shart emas.
 
 ## Xavfsizlik
-Parol hash (argon2) · session + JWT · RBAC · Zod validatsiya · rate limiting ·
+Parol hash (bcrypt) · session + JWT · RBAC · Zod validatsiya · rate limiting ·
 CSRF/XSS himoyasi · Prisma parametrlangan soʻrovlar (SQL-injection) · imzolangan
 media URL · audit log.
 
