@@ -19,7 +19,7 @@ export default function LoginPage() {
     const json = await res.json();
     setLoading(false);
     if (!json.ok) return setError(json.error?.message ?? "Xatolik");
-    window.location.href = "/app";
+    window.location.href = "/panel.html";
   }
 
   return (

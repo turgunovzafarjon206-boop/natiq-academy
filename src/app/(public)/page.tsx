@@ -14,7 +14,7 @@ export default function HomePage() {
         interaktiv darslar va aniq natija bilan.
       </p>
       <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-        <a href="/app" style={{ background: BRAND.colors.brand, color: "#fff", padding: "12px 20px", borderRadius: 9, textDecoration: "none", fontWeight: 600 }}>
+        <a href="/panel.html" style={{ background: BRAND.colors.brand, color: "#fff", padding: "12px 20px", borderRadius: 9, textDecoration: "none", fontWeight: 600 }}>
           Kurslarni koʻrish
         </a>
         <a href="/login" style={{ border: `1px solid ${BRAND.colors.brand}`, color: BRAND.colors.brand, padding: "12px 20px", borderRadius: 9, textDecoration: "none", fontWeight: 600 }}>

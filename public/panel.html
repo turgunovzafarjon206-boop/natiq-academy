@@ -1,0 +1,925 @@
+<title>Natiq Academy Prototip</title>
+<meta name="description" content="Natiq Academy — barcha rollar uchun interaktiv SaaS prototip.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F6F4EF; --surface:#FFFFFF; --surface-2:#F0EDE6; --surface-3:#E7E3D8;
+  --ink:#1A211F; --ink-2:#414B48; --ink-3:#727C77; --line:#E1DCD1; --line-2:#CFC9BB;
+  --brand:#0E6F63; --brand-ink:#0A544B; --brand-soft:#DDEBE7; --brand-2:#0B5A9C;
+  --gold:#B5842A; --gold-soft:#F4E8CD;
+  --ok:#2E8B62; --warn:#B7791F; --bad:#C0503F;
+  --ok-soft:#DEEEE5; --warn-soft:#F6EBD3; --bad-soft:#F6E0DA;
+  --purple:#6B4FA0; --purple-soft:#EAE3F4;
+  --r:14px; --r-sm:9px; --r-xs:7px;
+  --sh:0 1px 2px rgba(20,30,28,.05),0 10px 26px -14px rgba(20,30,28,.16);
+  --sh-sm:0 1px 2px rgba(20,30,28,.06);
+  --fd:"Bricolage Grotesque",system-ui,sans-serif;
+  --fb:"IBM Plex Sans",system-ui,sans-serif;
+  --fm:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100E0A; --surface:#1A1914; --surface-2:#211F18; --surface-3:#2B2820;
+  --ink:#F2EEE4; --ink-2:#C6C0B1; --ink-3:#8E887A; --line:#2E2B23; --line-2:#413D33;
+  --brand:#4FBFAE; --brand-ink:#8AD6C9; --brand-soft:#123531; --brand-2:#5AA6E0;
+  --gold:#DDB35A; --gold-soft:#33290F;
+  --ok:#5BC08C; --warn:#E0B25A; --bad:#E28173;
+  --ok-soft:#153020; --warn-soft:#332813; --bad-soft:#331c16;
+  --purple:#A488D8; --purple-soft:#241d33;
+  --sh:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.75);
+  --sh-sm:0 1px 2px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --ground:#100E0A; --surface:#1A1914; --surface-2:#211F18; --surface-3:#2B2820;
+  --ink:#F2EEE4; --ink-2:#C6C0B1; --ink-3:#8E887A; --line:#2E2B23; --line-2:#413D33;
+  --brand:#4FBFAE; --brand-ink:#8AD6C9; --brand-soft:#123531; --brand-2:#5AA6E0;
+  --gold:#DDB35A; --gold-soft:#33290F;
+  --ok:#5BC08C; --warn:#E0B25A; --bad:#E28173;
+  --ok-soft:#153020; --warn-soft:#332813; --bad-soft:#331c16;
+  --purple:#A488D8; --purple-soft:#241d33;
+  --sh:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.75);
+  --sh-sm:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--fb);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+h1,h2,h3,h4{font-family:var(--fd);letter-spacing:-.02em;margin:0;text-wrap:balance}
+button{font-family:var(--fb);cursor:pointer}
+a{color:inherit}
+img{max-width:100%}
+.mono{font-family:var(--fm);font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---- persona switcher (floating) ---- */
+body{padding-top:44px}
+#persona{position:fixed;z-index:70;top:0;left:0;right:0;display:flex;gap:4px;background:var(--surface);
+  border-bottom:1px solid var(--line);padding:6px 14px;box-shadow:var(--sh-sm);overflow-x:auto;align-items:center}
+#persona .plab{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-right:8px;white-space:nowrap}
+#persona button{border:none;background:transparent;color:var(--ink-2);font-size:12.5px;font-weight:600;
+  padding:6px 12px;border-radius:24px;white-space:nowrap;display:flex;align-items:center;gap:5px}
+#persona button.on{background:var(--brand);color:#fff}
+#persona button:hover:not(.on){background:var(--surface-2);color:var(--ink)}
+.pdot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.6}
+
+/* ============ APP SHELL ============ */
+.app{display:grid;grid-template-columns:246px minmax(0,1fr);min-height:100vh}
+.app{min-height:calc(100vh - 44px)}
+.sidebar{background:var(--surface);border-right:1px solid var(--line);padding:18px 14px;
+  display:flex;flex-direction:column;gap:4px;position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px}
+.glyph{width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--brand),var(--brand-ink));color:#fff;box-shadow:var(--sh-sm)}
+.glyph svg{width:19px;height:19px}
+.brand b{font-family:var(--fd);font-weight:700;font-size:15px;line-height:1}
+.brand small{display:block;color:var(--ink-3);font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;margin-top:2px}
+.navlabel{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;padding:12px 10px 5px}
+.navitem{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;color:var(--ink-2);
+  font-size:14px;font-weight:500;border:none;background:transparent;width:100%;text-align:left}
+.navitem svg{width:18px;height:18px;flex:none;opacity:.85}
+.navitem .cnt{margin-left:auto;font-size:11px;font-weight:700;background:var(--surface-3);color:var(--ink-2);border-radius:20px;padding:1px 7px}
+.navitem:hover{background:var(--surface-2);color:var(--ink)}
+.navitem.on{background:var(--brand-soft);color:var(--brand-ink);font-weight:600}
+.navitem.on .cnt{background:var(--brand);color:#fff}
+.side-foot{margin-top:auto;padding-top:12px}
+.userbox{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;border:1px solid var(--line)}
+.avatar{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff}
+.userbox b{font-size:13px;display:block;line-height:1.2}
+.userbox span{font-size:11px;color:var(--ink-3)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:44px;z-index:30;background:color-mix(in srgb,var(--ground) 82%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:13px 26px;
+  display:flex;align-items:center;gap:16px}
+.topbar h1{font-size:19px}
+.topbar .sub{font-size:12.5px;color:var(--ink-3);margin-top:1px}
+.search{margin-left:auto;position:relative;display:flex;align-items:center}
+.search svg{position:absolute;left:11px;width:15px;height:15px;color:var(--ink-3)}
+.search input{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 12px 8px 32px;
+  font-family:var(--fb);font-size:13px;color:var(--ink);width:210px;outline:none}
+.search input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.iconbtn{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--surface);
+  display:grid;place-items:center;color:var(--ink-2);position:relative}
+.iconbtn:hover{color:var(--ink);border-color:var(--line-2)}
+.iconbtn svg{width:17px;height:17px}
+.iconbtn .dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--bad);border:2px solid var(--surface)}
+.content{padding:24px 26px 60px;max-width:1240px;width:100%}
+
+/* ---- generic ---- */
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh-sm)}
+.card.pad0{padding:0;overflow:hidden}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ch h3{font-size:15.5px}.ch .sub{font-size:12px;color:var(--ink-3)}
+.ch .act{margin-left:auto;display:flex;gap:6px;align-items:center}
+.pageintro{color:var(--ink-2);font-size:14px;margin:-4px 0 20px;max-width:75ch}
+
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:9px;font-size:13.5px;font-weight:600;
+  padding:9px 15px;border:1px solid transparent;background:var(--brand);color:#fff;line-height:1}
+.btn svg{width:16px;height:16px}
+.btn:hover{background:var(--brand-ink)}
+.btn.ghost{background:var(--surface);color:var(--ink-2);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--line-2);color:var(--ink)}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{filter:brightness(.94)}
+.btn.sm{padding:6px 11px;font-size:12.5px}
+.btn.full{width:100%;justify-content:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.b-ok{background:var(--ok-soft);color:var(--ok)}.b-warn{background:var(--warn-soft);color:var(--warn)}
+.b-bad{background:var(--bad-soft);color:var(--bad)}.b-brand{background:var(--brand-soft);color:var(--brand-ink)}
+.b-gold{background:var(--gold-soft);color:var(--gold)}.b-neutral{background:var(--surface-3);color:var(--ink-2)}
+.b-purple{background:var(--purple-soft);color:var(--purple)}
+.dotb::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* KPI */
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh-sm);position:relative}
+.kpi .lab{font-size:12.5px;color:var(--ink-3);display:flex;align-items:center;gap:7px}
+.kpi .lab .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center}
+.kpi .val{font-family:var(--fd);font-size:27px;font-weight:700;letter-spacing:-.02em;margin-top:9px;line-height:1}
+.kpi .trend{font-size:12px;font-weight:600;margin-top:6px;display:inline-flex;align-items:center;gap:4px}
+.up{color:var(--ok)}.down{color:var(--bad)}
+
+/* progress ring */
+.ring{--p:0;--s:66px;--c:var(--brand);width:var(--s);height:var(--s);border-radius:50%;flex:none;
+  background:conic-gradient(var(--c) calc(var(--p)*1%),var(--surface-3) 0);display:grid;place-items:center;position:relative}
+.ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--surface)}
+.ring b{position:relative;font-family:var(--fd);font-size:14px;font-weight:700}
+.rings{width:16px;height:16px}
+
+/* progress bar */
+.pbar{height:8px;border-radius:20px;background:var(--surface-3);overflow:hidden}
+.pbar>i{display:block;height:100%;border-radius:20px;background:var(--brand)}
+.pbar.gold>i{background:var(--gold)}
+
+/* list rows */
+.lrow{display:flex;align-items:center;gap:13px;padding:12px 4px;border-bottom:1px solid var(--line)}
+.lrow:last-child{border-bottom:none}
+.lrow .thumb{width:42px;height:42px;border-radius:10px;flex:none;display:grid;place-items:center;font-size:19px}
+.lrow .gr{flex:1;min-width:0}
+.lrow .gr b{font-size:14px;display:block}
+.lrow .gr span{font-size:12.5px;color:var(--ink-3)}
+
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--line);white-space:nowrap}
+thead th{background:var(--surface-2);font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface-2)}
+.tcell{display:flex;align-items:center;gap:10px}
+.mini-av{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
+
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.tab{border:none;background:transparent;padding:9px 14px;font-size:13.5px;font-weight:600;color:var(--ink-3);
+  border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab.on{color:var(--brand-ink);border-bottom-color:var(--brand)}
+.tab:hover:not(.on){color:var(--ink)}
+
+/* filter chips */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.fchip{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.fchip.on{background:var(--brand);color:#fff;border-color:transparent}
+.fchip:hover:not(.on){border-color:var(--line-2)}
+
+/* empty state */
+.empty{text-align:center;padding:44px 20px;color:var(--ink-3)}
+.empty .e-ic{width:52px;height:52px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center;margin:0 auto 14px;font-size:24px}
+.empty b{display:block;color:var(--ink);font-family:var(--fd);font-size:16px;margin-bottom:4px}
+
+/* skeleton */
+.sk{background:linear-gradient(90deg,var(--surface-2),var(--surface-3),var(--surface-2));background-size:200% 100%;
+  animation:sh 1.4s infinite;border-radius:7px}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* toast */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);z-index:80;
+  background:var(--ink);color:var(--ground);padding:11px 18px;border-radius:11px;font-size:13.5px;font-weight:500;
+  box-shadow:var(--sh);opacity:0;pointer-events:none;transition:.25s;display:flex;align-items:center;gap:9px}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast .tk{width:20px;height:20px;border-radius:50%;background:var(--ok);display:grid;place-items:center;color:#fff}
+
+/* achievement badges */
+.ach{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:10px 6px;border-radius:12px}
+.ach .em{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--surface-2)}
+.ach.lit .em{background:var(--gold-soft)}
+.ach small{font-size:11px;color:var(--ink-3);line-height:1.3}
+.ach.lit small b{color:var(--ink)}
+.ach.off{opacity:.42}
+
+/* ============ PUBLIC SITE ============ */
+.site{min-height:100vh}
+.snav{position:sticky;top:44px;z-index:30;background:color-mix(in srgb,var(--ground) 85%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.snav .in{max-width:1120px;margin:0 auto;padding:13px 26px;display:flex;align-items:center;gap:22px}
+.snav .links{display:flex;gap:20px;margin-left:14px}
+.snav .links a{font-size:13.5px;color:var(--ink-2);text-decoration:none;font-weight:500}
+.snav .links a:hover{color:var(--brand-ink)}
+.snav .r{margin-left:auto;display:flex;gap:9px;align-items:center}
+.sect{max-width:1120px;margin:0 auto;padding:0 26px}
+.hero{padding:64px 0 40px;display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.eyebrow{font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:500}
+.hero h1{font-size:clamp(34px,5vw,54px);line-height:1.03;margin:16px 0 16px}
+.hero p{font-size:17.5px;color:var(--ink-2);max-width:46ch;line-height:1.55}
+.hero .cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.hero-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--sh)}
+.statbar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;margin:12px 0 8px}
+.statbar div{background:var(--surface);padding:20px 16px;text-align:center}
+.statbar b{font-family:var(--fd);font-size:26px;font-weight:700;display:block;letter-spacing:-.02em}
+.statbar span{font-size:12.5px;color:var(--ink-3)}
+.block{padding:52px 0}
+.block h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:8px}
+.block .lead{color:var(--ink-2);max-width:60ch;margin-bottom:28px}
+.ccard{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--sh-sm);display:flex;flex-direction:column}
+.ccard .top{height:96px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
+.ccard .bd{padding:15px 17px 17px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ccard h4{font-size:16px}
+.ccard .meta{font-size:12.5px;color:var(--ink-3);display:flex;gap:12px;flex-wrap:wrap;margin-top:auto}
+.feat{display:flex;gap:13px;align-items:flex-start}
+.feat .fi{width:40px;height:40px;border-radius:11px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center;flex:none}
+.feat .fi svg{width:20px;height:20px}
+.feat b{font-size:15.5px;font-family:var(--fd)}
+.feat p{font-size:13.5px;color:var(--ink-2);margin:3px 0 0}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{position:relative;padding-top:8px}
+.step .no{font-family:var(--fd);font-size:15px;font-weight:700;color:#fff;background:var(--brand);width:30px;height:30px;border-radius:9px;display:grid;place-items:center;margin-bottom:12px}
+.step b{font-size:15px;font-family:var(--fd);display:block;margin-bottom:4px}
+.step p{font-size:13px;color:var(--ink-2);margin:0}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--sh-sm)}
+.tcard .q{font-size:14.5px;color:var(--ink);line-height:1.55}
+.tcard .who{display:flex;align-items:center;gap:11px;margin-top:16px}
+.faq{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:last-child{border-bottom:none}
+.faq summary{padding:15px 18px;font-weight:600;font-size:14.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--brand);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{padding:0 18px 16px;margin:0;color:var(--ink-2);font-size:13.5px;max-width:none}
+.ctaband{background:linear-gradient(150deg,var(--brand),var(--brand-ink));border-radius:22px;padding:44px;text-align:center;color:#fff;margin:20px 0}
+.ctaband h2{color:#fff;font-size:clamp(24px,3.2vw,32px)}
+.ctaband p{color:rgba(255,255,255,.85);max-width:50ch;margin:10px auto 22px}
+.sfoot{border-top:1px solid var(--line);margin-top:40px}
+.sfoot .in{max-width:1120px;margin:0 auto;padding:34px 26px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px}
+.sfoot h5{font-size:13px;margin:0 0 10px;color:var(--ink)}
+.sfoot a{display:block;color:var(--ink-3);text-decoration:none;font-size:13px;padding:3px 0}
+.sfoot a:hover{color:var(--brand-ink)}
+.sfoot .copy{border-top:1px solid var(--line);padding:16px 26px;text-align:center;color:var(--ink-3);font-size:12.5px}
+
+/* charts */
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:middle}
+
+@media(max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr;gap:26px}
+  .steps,.sfoot .in{grid-template-columns:repeat(2,1fr)}.statbar{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .content{padding:18px 16px 90px}
+  .topbar{padding:12px 16px}
+  .search input{width:130px}
+  .g2,.g3{grid-template-columns:1fr}
+  .snav .links{display:none}
+  .mobnav{display:flex!important}
+  .content{padding-bottom:86px}
+}
+@media(max-width:520px){.g4{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+
+/* mobile bottom nav */
+.mobnav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:40;background:var(--surface);
+  border-top:1px solid var(--line);padding:6px 4px env(safe-area-inset-bottom);justify-content:space-around}
+.mobnav button{border:none;background:transparent;color:var(--ink-3);font-size:10.5px;font-weight:600;
+  display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;border-radius:9px}
+.mobnav button svg{width:20px;height:20px}
+.mobnav button.on{color:var(--brand-ink)}
+</style>
+
+<div id="persona"></div>
+<div id="root"></div>
+<div id="toast"><span class="tk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></span><span id="toastmsg"></span></div>
+
+<script>
+/* ============================================================ ICONS */
+const I={
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+  book:'<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 0 2 2h12"/>',
+  task:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="m8 12 3 3 5-6"/>',
+  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+  check:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m8 12 2.5 2.5L16 9"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 6a3 3 0 0 1 0 6M21 20c0-2.5-1.3-4-3.5-4.6"/>',
+  user:'<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3-6 7-6s7 2.4 7 6"/>',
+  cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/>',
+  cert:'<circle cx="12" cy="9" r="5.2"/><path d="M9 13.5 8 21l4-2 4 2-1-7.5"/>',
+  bell:'<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/>',
+  play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/>',
+  star:'<path d="M12 3l2.6 5.3 5.9.9-4.3 4.2 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.5l5.9-.9L12 3Z"/>',
+  fire:'<path d="M12 3c1 3-1 4-1 6 0 1 1 2 2 2 2 0 3-3 2-5 3 2 4 5 4 8a7 7 0 1 1-14 0c0-3 2-5 3-7 1 1 1 2 1 3Z"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/>',
+  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>',
+  msg:'<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/>',
+  tg:'<path d="M21 4 3 11l5 2 2 6 3-4 5 4 3-15Z"/>',
+  award:'<circle cx="12" cy="8" r="5"/><path d="M9 13l-2 8 5-3 5 3-2-8"/>',
+  layers:'<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5M3 18l9 5 9-5"/>',
+};
+const ic=(n,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${I[n]||''}</svg>`;
+const GLYPH=`<span class="glyph">${'<svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5 3 7v6.2c0 4.9 3.6 7.7 9 9.3 5.4-1.6 9-4.4 9-9.3V7l-9-4.5Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 12.2 11 14.8l4.8-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</span>`;
+
+const AVC=['#0E6F63','#0B5A9C','#B5842A','#6B4FA0','#C0503F','#2E8B62'];
+const avc=s=>AVC[[...s].reduce((a,c)=>a+c.charCodeAt(0),0)%AVC.length];
+const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+function toast(m){const t=document.getElementById('toast');document.getElementById('toastmsg').textContent=m;
+  t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* ============================================================ MOCK DATA (UZ) */
+const DB={
+  student:{name:'Amina Yusupova',code:'NAT-2026-000123',xp:1240,streak:7,level:'Beginner'},
+  courses:[
+    {t:'Arab tili — Beginner',em:'🕌',c:'#0E6F63',bg:'var(--brand-soft)',pct:72,done:24,total:36,teacher:'Ustoz Karimov',next:'Bugun · 19:00'},
+    {t:'Ingliz tili — Elementary',em:'🇬🇧',c:'#0B5A9C',bg:'#DCE8F4',pct:41,done:11,total:27,teacher:'Ms. Nodira',next:'Ertaga · 17:30'},
+    {t:'Tajvid asoslari',em:'📖',c:'#B5842A',bg:'var(--gold-soft)',pct:88,done:22,total:25,teacher:'Ustoz Karimov',next:'Chorshanba · 18:00'},
+  ],
+  homework:[
+    {t:'Arab alifbosi — yozuv mashqi',course:'Arab tili',due:'Bugun',st:'pending',score:null},
+    {t:'Present Simple — 20 ta gap',course:'Ingliz tili',due:'2 kun',st:'submitted',score:null},
+    {t:'Suraga tajvid tahlili',course:'Tajvid',due:'Kecha',st:'graded',score:'9/10'},
+    {t:'Lugʻat: 30 ta yangi soʻz',course:'Arab tili',due:'3 kun',st:'revision',score:null},
+  ],
+  ach:[
+    {em:'🔥',t:'7 kunlik streak',lit:1},{em:'⭐',t:'1000 XP toʻplandi',lit:1},
+    {em:'🏆',t:'Birinchi kurs tugadi',lit:1},{em:'🎯',t:'50 dars yakunlandi',lit:1},
+    {em:'🌙',t:'Tungi oʻquvchi',lit:0},{em:'💎',t:'Mukammal hafta',lit:0},
+  ],
+  reviewQueue:[
+    {s:'Amina Yusupova',t:'Arab alifbosi — yozuv',course:'Arab tili',when:'12 daqiqa oldin',files:'2 rasm'},
+    {s:'Bekzod Aliyev',t:'Present Simple mashq',course:'Ingliz tili',when:'40 daqiqa oldin',files:'PDF'},
+    {s:'Dilnoza Rahimova',t:'Tajvid audio',course:'Tajvid',when:'1 soat oldin',files:'Audio'},
+    {s:'Sardor Umarov',t:'Lugʻat mashqi',course:'Arab tili',when:'2 soat oldin',files:'Matn'},
+  ],
+  todayLessons:[
+    {t:'Arab tili — Beginner',grp:'AR-B1',time:'17:00',dur:'60 daq',n:14},
+    {t:'Tajvid asoslari',grp:'TJ-2',time:'18:30',dur:'45 daq',n:9},
+    {t:'Arab tili — Elementary',grp:'AR-E1',time:'20:00',dur:'60 daq',n:12},
+  ],
+  students:[
+    {n:'Amina Yusupova',code:'000123',course:'Arab tili',grp:'AR-B1',pct:72,att:96,pay:'paid',ph:'+998 90 123 45 67'},
+    {n:'Bekzod Aliyev',code:'000124',course:'Ingliz tili',grp:'EN-E1',pct:41,att:88,pay:'pending',ph:'+998 90 234 56 78'},
+    {n:'Dilnoza Rahimova',code:'000125',course:'Tajvid',grp:'TJ-2',pct:88,att:99,pay:'paid',ph:'+998 90 345 67 89'},
+    {n:'Sardor Umarov',code:'000126',course:'Arab tili',grp:'AR-B1',pct:33,att:74,pay:'overdue',ph:'+998 90 456 78 90'},
+    {n:'Malika Tosheva',code:'000127',course:'Ingliz tili',grp:'EN-E1',pct:60,att:91,pay:'partial',ph:'+998 90 567 89 01'},
+    {n:'Jasur Qodirov',code:'000128',course:'Tajvid',grp:'TJ-2',pct:95,att:100,pay:'paid',ph:'+998 90 678 90 12'},
+    {n:'Nigora Ismoilova',code:'000129',course:'Arab tili',grp:'AR-E1',pct:52,att:83,pay:'paid',ph:'+998 90 789 01 23'},
+    {n:'Otabek Yoʻldoshev',code:'000130',course:'Ingliz tili',grp:'EN-E1',pct:27,att:69,pay:'overdue',ph:'+998 90 890 12 34'},
+  ],
+  adminCourses:[
+    {t:'Arab tili — Beginner',lvl:'Beginner',st:'published',students:64,price:'450 000',teacher:'U. Karimov'},
+    {t:'Ingliz tili — Elementary',lvl:'Elementary',st:'published',students:48,price:'480 000',teacher:'N. Azizova'},
+    {t:'Tajvid asoslari',lvl:'Basic',st:'published',students:39,price:'380 000',teacher:'U. Karimov'},
+    {t:'Arab tili — Intermediate',lvl:'Intermediate',st:'draft',students:0,price:'520 000',teacher:'—'},
+    {t:'Matematika — Milliy sertifikat',lvl:'Advanced',st:'archived',students:22,price:'500 000',teacher:'S. Yusupov'},
+  ],
+  payStatus:{course:'450 000',paid:'300 000',left:'150 000',next:'25-yanvar'},
+  feedbacks:[
+    {t:'Ustoz Karimov',c:'Arab tili',m:'Amina yozuv mashqlarida ajoyib natija koʻrsatmoqda. Talaffuzga eʼtibor berilsa yaxshi.',when:'2 kun oldin'},
+    {t:'Ms. Nodira',c:'Ingliz tili',m:'Grammatika mustahkam, endi ogʻzaki nutqni koʻproq mashq qilamiz.',when:'5 kun oldin'},
+  ],
+};
+
+/* growth + revenue data */
+const growth=[210,248,262,290,315,352,398,441,505,560,612,690];
+const revenue=[38,42,40,55,61,58,72,79,74,88,96,104];
+const months=['Yan','Fev','Mar','Apr','May','Iyun','Iyul','Avg','Sen','Okt','Noy','Dek'];
+
+/* ============================================================ CHARTS (SVG) */
+function lineChart(data,labels,{w=560,h=190,color='var(--brand)',fill=true}={}){
+  const pad={l:34,r:12,t:14,b:26}, iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+  const mx=Math.max(...data), mn=Math.min(...data), rng=mx-mn||1;
+  const X=i=>pad.l+iw*i/(data.length-1);
+  const Y=v=>pad.t+ih-((v-mn)/rng)*ih;
+  const pts=data.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');
+  const area=`${pad.l},${pad.t+ih} ${pts} ${pad.l+iw},${pad.t+ih}`;
+  let grid='';for(let g=0;g<=3;g++){const yy=pad.t+ih*g/3;grid+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>`;
+    grid+=`<text x="${pad.l-6}" y="${yy+3}" text-anchor="end" font-size="9" fill="var(--ink-3)" font-family="var(--fm)">${Math.round(mx-(rng)*g/3)}</text>`;}
+  let lab='';labels.forEach((l,i)=>{if(i%2===0||i===labels.length-1)lab+=`<text x="${X(i)}" y="${h-8}" text-anchor="middle" font-size="9" fill="var(--ink-3)">${l}</text>`;});
+  const last=data.length-1;
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img">${grid}
+    ${fill?`<polygon points="${area}" fill="${color}" opacity=".1"/>`:''}
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${X(last)}" cy="${Y(data[last])}" r="4.5" fill="${color}"/>
+    <circle cx="${X(last)}" cy="${Y(data[last])}" r="8" fill="${color}" opacity=".2"/>
+    ${lab}</svg>`;
+}
+function barChart(data,labels,{w=560,h=190,color='var(--gold)'}={}){
+  const pad={l:34,r:12,t:14,b:26}, iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+  const mx=Math.max(...data), bw=iw/data.length*.6, gap=iw/data.length;
+  let grid='';for(let g=0;g<=3;g++){const yy=pad.t+ih*g/3;grid+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="var(--line)"/>
+    <text x="${pad.l-6}" y="${yy+3}" text-anchor="end" font-size="9" fill="var(--ink-3)" font-family="var(--fm)">${Math.round(mx-mx*g/3)}</text>`;}
+  let bars='';data.forEach((v,i)=>{const bh=(v/mx)*ih,x=pad.l+gap*i+(gap-bw)/2,y=pad.t+ih-bh;
+    bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${color}"/>`;
+    if(i%2===0||i===data.length-1)bars+=`<text x="${x+bw/2}" y="${h-8}" text-anchor="middle" font-size="9" fill="var(--ink-3)">${labels[i]}</text>`;});
+  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img">${grid}${bars}</svg>`;
+}
+function donut(segs,{size=150,center='',label='davomat'}={}){
+  const cx=size/2,cy=size/2,r=size/2-14,C=2*Math.PI*r;let off=0,seg='';
+  const tot=segs.reduce((a,s)=>a+s.v,0);
+  segs.forEach(s=>{const len=C*s.v/tot;seg+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="16" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt"/>`;off+=len;});
+  return `<svg class="chart" viewBox="0 0 ${size} ${size}" style="max-width:${size}px">${seg}
+    <text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="24" font-family="var(--fd)" font-weight="700" fill="var(--ink)">${center||tot+'%'}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" fill="var(--ink-3)">${label}</text></svg>`;
+}
+
+/* ============================================================ COMPONENT HELPERS */
+const payBadge=p=>({paid:['b-ok','Toʻlangan'],pending:['b-warn','Kutilmoqda'],overdue:['b-bad','Muddati oʻtgan'],partial:['b-gold','Qisman']})[p];
+const hwBadge=s=>({pending:['b-warn','Kutilmoqda'],submitted:['b-brand','Topshirilgan'],graded:['b-ok','Baholangan'],revision:['b-bad','Qayta ishlash']})[s];
+function kpi(lab,val,trend,up,icn,col){
+  return `<div class="kpi"><div class="lab"><span class="ic" style="background:${col}22;color:${col}">${ic(icn)}</span>${lab}</div>
+    <div class="val num">${val}</div><div class="trend ${up?'up':'down'}">${up?'▲':'▼'} ${trend}</div></div>`;
+}
+
+/* ============================================================ APP SHELL */
+const NAVS={
+  student:{title:'Talaba',user:['Amina Yusupova','Talaba'],items:[
+    ['dash','Boshqaruv paneli','home'],['courses','Mening kurslarim','book'],['hw','Uy vazifalari','task','2'],['att','Davomat','check']]},
+  teacher:{title:'Oʻqituvchi',user:['Ustoz Karimov','Oʻqituvchi'],items:[
+    ['dash','Boshqaruv paneli','home'],['review','Vazifa tekshiruvi','task','4'],['att','Davomat','check'],['groups','Guruhlarim','users']]},
+  admin:{title:'Boshqaruv',user:['Sarvar Aliyev','Administrator'],items:[
+    ['dash','KPI paneli','grid'],['students','Talabalar','users'],['courses','Kurslar','book'],['analytics','Analitika','chart'],['pay','Toʻlovlar','cash']]},
+  parent:{title:'Ota-ona',user:['Zebo Yusupova','Ota-ona'],items:[
+    ['dash','Boshqaruv paneli','home']]},
+  design:{title:'Dizayn tizimi',user:['Natiq','Design System'],items:[
+    ['dash','Komponentlar','layers']]},
+};
+const MOBNAV={student:[['dash','Bosh','home'],['courses','Kurslar','book'],['att','Jadval','cal'],['hw','Vazifa','task'],['prof','Profil','user']]};
+
+let STATE={persona:'site',view:'dash'};
+
+function shell(persona,inner,pageTitle,pageSub){
+  const nav=NAVS[persona];
+  const navHtml=nav.items.map(([v,t,icn,cnt])=>`<button class="navitem ${STATE.view===v?'on':''}" onclick="go('${persona}','${v}')">${ic(icn)}<span>${t}</span>${cnt?`<span class="cnt">${cnt}</span>`:''}</button>`).join('');
+  const [un,ur]=nav.user;
+  let mob='';
+  if(MOBNAV[persona]){mob=`<div class="mobnav">${MOBNAV[persona].map(([v,t,icn])=>`<button class="${STATE.view===v?'on':''}" onclick="go('${persona}','${v==='prof'?'dash':v}')">${ic(icn)}<span>${t}</span></button>`).join('')}</div>`;}
+  return `<div class="app">
+    <div class="sidebar">
+      <div class="brand">${GLYPH}<div><b>Natiq</b><small>Academy</small></div></div>
+      <div class="navlabel">${nav.title} menyusi</div>
+      ${navHtml}
+      <div class="side-foot">
+        <div class="userbox"><span class="avatar" style="background:${avc(un)}">${ini(un)}</span>
+          <div style="flex:1"><b>${un}</b><span>${ur}</span></div>${ic('logout')}</div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="topbar">
+        <div><h1>${pageTitle}</h1><div class="sub">${pageSub||''}</div></div>
+        <div class="search">${ic('search')}<input placeholder="Qidirish…" aria-label="Qidirish"></div>
+        <button class="iconbtn" onclick="toast('3 ta oʻqilmagan bildirishnoma')" aria-label="Bildirishnomalar">${ic('bell')}<span class="dot"></span></button>
+        <button class="iconbtn" onclick="toggleTheme()" aria-label="Mavzu">${ic('star')}</button>
+      </div>
+      <div class="content">${inner}</div>
+    </div>
+    ${mob}
+  </div>`;
+}
+
+/* ============================================================ VIEWS: STUDENT */
+function studentDash(){
+  const c=DB.courses;
+  return `<p class="pageintro">Assalomu alaykum, <b>Amina</b> 👋 Bugun oʻrganishni davom ettiramizmi?</p>
+  <div class="grid g4" style="margin-bottom:18px">
+    ${kpi('Faol kurslar','3','yangi Tajvid',true,'book','#0E6F63')}
+    ${kpi('Umumiy oʻzlashtirish','67%','+8% shu hafta',true,'chart','#0B5A9C')}
+    ${kpi('Streak','7 kun','🔥 rekord',true,'fire','#B5842A')}
+    ${kpi('XP ballari','1 240','+120 bugun',true,'star','#6B4FA0')}
+  </div>
+  <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:16px">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card" style="background:linear-gradient(150deg,var(--brand),var(--brand-ink));color:#fff;border:none">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;opacity:.85"><span style="width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block"></span>BUGUNGI DARS · 19:00</div>
+        <h2 style="color:#fff;font-size:22px;margin:10px 0 4px">Arab tili — Beginner</h2>
+        <div style="opacity:.85;font-size:13.5px">14-dars · Harakat belgilari (harakat) · Ustoz Karimov</div>
+        <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+          <button class="btn gold" onclick="toast('Jonli darsga ulanmoqda…')">${ic('play')} Darsga qoʻshilish</button>
+          <button class="btn ghost" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.25)" onclick="go('student','courses')">Kursni davom ettirish</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><h3>Faol kurslar</h3><button class="btn ghost sm" onclick="go('student','courses')">Barchasi</button></div>
+        ${c.map(x=>`<div class="lrow">
+          <span class="thumb" style="background:${x.bg}">${x.em}</span>
+          <div class="gr"><b>${x.t}</b><span>${x.done}/${x.total} dars · ${x.teacher}</span>
+            <div class="pbar" style="margin-top:7px"><i style="width:${x.pct}%;background:${x.c}"></i></div></div>
+          <div style="text-align:right"><b class="num" style="font-family:var(--fd);font-size:16px">${x.pct}%</b></div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="ch"><h3>Uy vazifalari</h3><span class="badge b-warn">2 ta faol</span></div>
+        ${DB.homework.slice(0,3).map(h=>{const[b,l]=hwBadge(h.st);return`<div class="lrow"><span class="thumb" style="background:var(--surface-2)">${ic('task')}</span>
+          <div class="gr"><b style="font-size:13px">${h.t}</b><span>${h.course} · ${h.due}</span></div>
+          <span class="badge ${b}">${h.score||l}</span></div>`;}).join('')}
+        <button class="btn ghost full sm" style="margin-top:12px" onclick="go('student','hw')">Barcha vazifalar</button>
+      </div>
+      <div class="card">
+        <div class="ch"><h3>Yutuqlar</h3><span class="badge b-gold">4 / 6</span></div>
+        <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:6px">
+          ${DB.ach.map(a=>`<div class="ach ${a.lit?'lit':'off'}"><span class="em">${a.em}</span><small>${a.lit?'<b>'+a.t+'</b>':a.t}</small></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><h3>Toʻlov holati</h3><span class="badge b-gold">Qisman</span></div>
+        <div style="font-size:13px;color:var(--ink-2);display:grid;grid-template-columns:1fr auto;gap:5px 10px">
+          <span>Kurs narxi</span><b class="num">${DB.payStatus.course} soʻm</b>
+          <span>Toʻlangan</span><b class="num" style="color:var(--ok)">${DB.payStatus.paid} soʻm</b>
+          <span>Qoldi</span><b class="num" style="color:var(--bad)">${DB.payStatus.left} soʻm</b>
+          <span>Keyingi toʻlov</span><b>${DB.payStatus.next}</b></div>
+        <button class="btn full sm" style="margin-top:12px" onclick="toast('Toʻlov sahifasi (Click / Payme / Uzum)')">${ic('cash')} Toʻlash</button>
+      </div>
+    </div>
+  </div>`;
+}
+function studentCourses(){
+  return `<p class="pageintro">Toʻxtagan joyingizdan davom eting — har bir kursning oxirgi darsi saqlangan.</p>
+  <div class="grid g3">${DB.courses.map(x=>`<div class="card pad0" style="overflow:hidden">
+    <div style="height:80px;background:${x.bg};display:grid;place-items:center;font-size:34px">${x.em}</div>
+    <div style="padding:16px 18px">
+      <div style="display:flex;justify-content:space-between;align-items:start;gap:8px"><h3 style="font-size:16px">${x.t}</h3></div>
+      <div style="font-size:12.5px;color:var(--ink-3);margin:4px 0 12px">${x.teacher} · Keyingi: ${x.next}</div>
+      <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>${x.done}/${x.total} dars</span><b class="num">${x.pct}%</b></div>
+      <div class="pbar"><i style="width:${x.pct}%;background:${x.c}"></i></div>
+      <button class="btn full sm" style="margin-top:14px;background:${x.c}" onclick="toast('Dars pleeri ochilmoqda…')">${ic('play')} Davom ettirish</button>
+    </div></div>`).join('')}</div>`;
+}
+function studentHw(){
+  return `<p class="pageintro">Barcha uy vazifalari va ularning holati bir joyda.</p>
+  <div class="filters"><span class="fchip on">Barchasi</span><span class="fchip">Faol</span><span class="fchip">Baholangan</span><span class="fchip">Qayta ishlash</span></div>
+  <div class="tw"><table><thead><tr><th>Vazifa</th><th>Kurs</th><th>Muddat</th><th>Holat</th><th>Baho</th><th></th></tr></thead><tbody>
+  ${DB.homework.map(h=>{const[b,l]=hwBadge(h.st);return`<tr><td style="white-space:normal;font-weight:600;max-width:240px">${h.t}</td>
+    <td>${h.course}</td><td>${h.due}</td><td><span class="badge ${b}">${l}</span></td>
+    <td class="num">${h.score||'—'}</td>
+    <td><button class="btn ghost sm" onclick="toast('Vazifa ochildi')">${h.st==='revision'?'Qayta yuborish':'Koʻrish'}</button></td></tr>`;}).join('')}
+  </tbody></table></div>`;
+}
+function studentAtt(){
+  const days=[['Du','present'],['Se','present'],['Cho','late'],['Pa','present'],['Ju','present'],['Sha','absent'],['Ya','excused'],['Du','present'],['Se','present'],['Cho','present']];
+  const map={present:['var(--ok)','Kelgan'],late:['var(--warn)','Kech'],absent:['var(--bad)','Kelmagan'],excused:['var(--brand)','Sababli']};
+  return `<p class="pageintro">Davomat foizingiz — muntazam qatnashish streak va yutuqlarga taʼsir qiladi.</p>
+  <div class="grid g4" style="margin-bottom:18px">
+    ${kpi('Umumiy davomat','92%','+2% oy',true,'check','#2E8B62')}
+    ${kpi('Kelgan','44','shu oy',true,'user','#0E6F63')}
+    ${kpi('Kechikkan','3','shu oy',false,'clock','#B7791F')}
+    ${kpi('Sababli','1','shu oy',true,'cal','#0B5A9C')}
+  </div>
+  <div class="card"><div class="ch"><h3>Oxirgi 10 dars</h3><div class="legend" style="margin-left:auto">
+    ${Object.entries(map).map(([k,[c,l]])=>`<span><i style="background:${c}"></i>${l}</span>`).join('')}</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${days.map(([d,s])=>{const[c,l]=map[s];return`<div style="text-align:center"><div title="${l}" style="width:44px;height:44px;border-radius:11px;background:${c}22;color:${c};display:grid;place-items:center;font-weight:700">${l[0]}</div><small style="font-size:11px;color:var(--ink-3)">${d}</small></div>`;}).join('')}</div>
+  </div>`;
+}
+
+/* ============================================================ VIEWS: TEACHER */
+function teacherDash(){
+  return `<p class="pageintro">Assalomu alaykum, <b>Ustoz Karimov</b>. Bugun 3 ta darsingiz va 4 ta tekshiriladigan vazifa bor.</p>
+  <div class="grid g4" style="margin-bottom:18px">
+    ${kpi('Bugungi darslar','3','17:00 birinchi',true,'cal','#0E6F63')}
+    ${kpi('Faol talabalar','35','2 guruh',true,'users','#0B5A9C')}
+    ${kpi('Tekshirish kutmoqda','4','vazifa',false,'task','#B7791F')}
+    ${kpi('Oʻrtacha oʻzlashtirish','78%','+5% oy',true,'chart','#2E8B62')}
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card"><div class="ch"><h3>Bugungi darslar</h3><span class="badge b-brand">3 ta</span></div>
+      ${DB.todayLessons.map(l=>`<div class="lrow"><div class="thumb mono" style="background:var(--brand-soft);color:var(--brand-ink);font-size:13px;font-weight:700">${l.time}</div>
+        <div class="gr"><b>${l.t}</b><span>${l.grp} · ${l.n} talaba · ${l.dur}</span></div>
+        <button class="btn sm" onclick="toast('Dars boshlandi')">${ic('play')} Boshlash</button></div>`).join('')}
+    </div>
+    <div class="card"><div class="ch"><h3>Tekshirish navbati</h3><button class="btn ghost sm" onclick="go('teacher','review')">Barchasi</button></div>
+      ${DB.reviewQueue.map(r=>`<div class="lrow"><span class="mini-av" style="background:${avc(r.s)}">${ini(r.s)}</span>
+        <div class="gr"><b style="font-size:13px">${r.s}</b><span>${r.t} · ${r.files}</span></div>
+        <span style="font-size:11.5px;color:var(--ink-3)">${r.when}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+function teacherReview(){
+  return `<p class="pageintro">Talabalar topshirgan vazifalarni baholang, izoh yozing yoki qayta ishlashga qaytaring.</p>
+  <div class="grid g2">
+    <div class="card">
+      <div class="ch"><span class="mini-av" style="background:${avc('Amina Yusupova')}">AY</span><div><h3 style="font-size:15px">Amina Yusupova</h3><div class="sub">Arab alifbosi — yozuv mashqi · Arab tili</div></div><span class="badge b-brand" style="margin-left:auto">Yangi</span></div>
+      <div style="border:1px dashed var(--line-2);border-radius:11px;padding:22px;text-align:center;color:var(--ink-3);background:var(--surface-2)">
+        <div style="font-size:26px;margin-bottom:4px">🖼️</div>2 ta rasm biriktirilgan<br><small>alifbo-1.jpg · alifbo-2.jpg</small></div>
+      <h4>Baho</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">${[10,9,8,7,6].map((n,i)=>`<button class="fchip ${i===1?'on':''}">${n}/10</button>`).join('')}</div>
+      <h4>Izoh (feedback)</h4>
+      <textarea style="width:100%;min-height:70px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:13.5px;background:var(--surface);color:var(--ink);resize:vertical" placeholder="Talabaga izoh yozing…">Yozuvingiz chiroyli, harakatlarga eʼtibor bering.</textarea>
+      <div style="display:flex;gap:9px;margin-top:12px"><button class="btn" onclick="toast('Baho va izoh saqlandi ✓')">${ic('check')} Tasdiqlash</button>
+        <button class="btn ghost" onclick="toast('Qayta ishlashga qaytarildi')">Qayta ishlash</button></div>
+    </div>
+    <div class="card"><div class="ch"><h3>Navbatdagilar</h3><span class="badge b-warn">3 ta qoldi</span></div>
+      ${DB.reviewQueue.slice(1).map(r=>`<div class="lrow"><span class="mini-av" style="background:${avc(r.s)}">${ini(r.s)}</span>
+        <div class="gr"><b style="font-size:13px">${r.s}</b><span>${r.t} · ${r.course}</span></div>
+        <button class="btn ghost sm">Ochish</button></div>`).join('')}
+      <div class="empty" style="padding:20px 10px"><small>Navbat tozalandi? Ajoyib — barcha talabalar oʻz vaqtida fikr oladi.</small></div>
+    </div>
+  </div>`;
+}
+function teacherAtt(){
+  const st=DB.students.filter(s=>s.grp==='AR-B1');
+  const opts=[['present','Keldi','var(--ok)'],['late','Kech','var(--warn)'],['absent','Yoʻq','var(--bad)'],['excused','Sababli','var(--brand)']];
+  return `<p class="pageintro">Guruh: <b>AR-B1 · Arab tili Beginner</b> · Bugun 17:00. Har talaba uchun holatni belgilang.</p>
+  <div class="card pad0"><table><thead><tr><th>Talaba</th><th>Kod</th><th style="text-align:right">Davomat holati</th></tr></thead><tbody>
+  ${DB.students.slice(0,5).map((s,idx)=>`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(s.n)}">${ini(s.n)}</span>${s.n}</div></td>
+    <td class="mono">NAT-${s.code}</td>
+    <td><div style="display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap">${opts.map(([k,l,c],i)=>`<button class="fchip ${i===(idx%4)?'on':''}" style="${i===(idx%4)?'background:'+c+';border-color:transparent':''}" onclick="pickAtt(this)">${l}</button>`).join('')}</div></td></tr>`).join('')}
+  </tbody></table></div>
+  <div style="margin-top:16px"><button class="btn" onclick="toast('Davomat saqlandi ✓ · Ota-onalarga bildirishnoma yuborildi')">${ic('check')} Davomatni saqlash</button></div>`;
+}
+function teacherGroups(){
+  const g=[['AR-B1','Arab tili Beginner',14,'Du/Cho/Ju · 17:00'],['TJ-2','Tajvid asoslari',9,'Se/Pa · 18:30'],['AR-E1','Arab tili Elementary',12,'Du/Cho · 20:00']];
+  return `<p class="pageintro">Sizga biriktirilgan guruhlar va ularning jadvali.</p>
+  <div class="grid g3">${g.map(([code,t,n,sch])=>`<div class="card"><div style="display:flex;justify-content:space-between"><span class="badge b-brand mono">${code}</span><span class="badge b-neutral">${n} talaba</span></div>
+    <h3 style="font-size:16px;margin:12px 0 4px">${t}</h3><div style="font-size:12.5px;color:var(--ink-3)">${sch}</div>
+    <div style="display:flex;gap:8px;margin-top:14px"><button class="btn ghost sm" onclick="go('teacher','att')">Davomat</button><button class="btn ghost sm" onclick="toast('Guruh ochildi')">Talabalar</button></div></div>`).join('')}</div>`;
+}
+
+/* ============================================================ VIEWS: ADMIN */
+function adminDash(){
+  return `<p class="pageintro">Akademiyaning umumiy holati — <b>Bu oy</b> koʻrsatkichlari.</p>
+  <div class="filters"><span class="fchip">Bugun</span><span class="fchip">Bu hafta</span><span class="fchip on">Bu oy</span><span class="fchip">Bu yil</span><span class="fchip">Maxsus sana</span></div>
+  <div class="grid g4" style="margin-bottom:16px">
+    ${kpi('Jami talabalar','690','+78 shu oy',true,'users','#0E6F63')}
+    ${kpi('Faol talabalar','612','89% faollik',true,'user','#0B5A9C')}
+    ${kpi('Oylik daromad','104 mln','+8% oʻsish',true,'cash','#B5842A')}
+    ${kpi('Oʻrtacha davomat','91%','+3% oy',true,'check','#2E8B62')}
+  </div>
+  <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="card"><div class="ch"><h3>Talabalar oʻsishi</h3><span class="badge b-ok">+228% / yil</span></div>${lineChart(growth,months,{color:'var(--brand)'})}</div>
+    <div class="card"><div class="ch"><h3>Davomat taqsimoti</h3></div>
+      <div style="display:flex;align-items:center;gap:18px">${donut([{v:78,c:'var(--ok)'},{v:9,c:'var(--warn)'},{v:4,c:'var(--brand)'},{v:9,c:'var(--bad)'}],{center:'91%'})}
+      <div class="legend" style="flex-direction:column;gap:8px">
+        <span><i style="background:var(--ok)"></i>Kelgan · 78%</span><span><i style="background:var(--warn)"></i>Kechikkan · 9%</span>
+        <span><i style="background:var(--brand)"></i>Sababli · 4%</span><span><i style="background:var(--bad)"></i>Kelmagan · 9%</span></div></div>
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:16px">
+    <div class="card"><div class="ch"><h3>Oylik daromad (mln soʻm)</h3><span class="badge b-gold">Yillik: 936 mln</span></div>${barChart(revenue,months)}</div>
+    <div class="card"><div class="ch"><h3>Kurs samaradorligi</h3></div>
+      ${[['Arab tili — Beginner',86,'#0E6F63'],['Ingliz tili — Elementary',72,'#0B5A9C'],['Tajvid asoslari',91,'#B5842A'],['Arab tili — Elementary',64,'#6B4FA0']].map(([t,p,c])=>`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${t}</span><b class="num">${p}%</b></div><div class="pbar"><i style="width:${p}%;background:${c}"></i></div></div>`).join('')}
+    </div>
+  </div>`;
+}
+let adminFilter='all';
+function adminStudents(){
+  const filters=[['all','Barchasi'],['paid','Toʻlagan'],['overdue','Qarzdor'],['AR-B1','AR-B1 guruh']];
+  let list=DB.students;
+  if(adminFilter==='paid')list=list.filter(s=>s.pay==='paid');
+  else if(adminFilter==='overdue')list=list.filter(s=>s.pay==='overdue');
+  else if(adminFilter==='AR-B1')list=list.filter(s=>s.grp==='AR-B1');
+  return `<p class="pageintro">Jami <b>${DB.students.length}</b> talaba (namuna). Qidiruv, filtr, saralash va sahifalash bilan.</p>
+  <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+    <div class="search" style="margin:0"><span style="position:absolute;left:11px;color:var(--ink-3)">${ic('search')}</span><input placeholder="Ism, telefon yoki ID boʻyicha…" style="width:280px"></div>
+    <button class="btn" style="margin-left:auto" onclick="toast('Yangi talaba formasi')">${ic('plus')} Talaba qoʻshish</button></div>
+  <div class="filters">${filters.map(([k,l])=>`<button class="fchip ${adminFilter===k?'on':''}" onclick="adminFilter='${k}';render()">${l}</button>`).join('')}</div>
+  <div class="tw"><table><thead><tr><th>Talaba</th><th>ID</th><th>Kurs · Guruh</th><th>Oʻzlashtirish</th><th>Davomat</th><th>Toʻlov</th><th></th></tr></thead><tbody>
+  ${list.map(s=>{const[b,l]=payBadge(s.pay);return`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(s.n)}">${ini(s.n)}</span><div><b>${s.n}</b><div style="font-size:11.5px;color:var(--ink-3)">${s.ph}</div></div></div></td>
+    <td class="mono">${s.code}</td><td>${s.course}<br><span style="font-size:11.5px;color:var(--ink-3)" class="mono">${s.grp}</span></td>
+    <td style="min-width:120px"><div style="display:flex;align-items:center;gap:8px"><div class="pbar" style="width:70px"><i style="width:${s.pct}%"></i></div><span class="num" style="font-size:12px">${s.pct}%</span></div></td>
+    <td class="num">${s.att}%</td><td><span class="badge ${b}">${l}</span></td>
+    <td><button class="btn ghost sm" onclick="toast('${s.n} profili')">${ic('eye')}</button></td></tr>`;}).join('')}
+  </tbody></table>
+  ${list.length===0?'<div class="empty"><div class="e-ic">🔍</div><b>Natija topilmadi</b>Ushbu filtr boʻyicha talaba yoʻq.</div>':''}
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px;color:var(--ink-3)">
+    <span>${list.length} ta koʻrsatilmoqda</span>
+    <div style="display:flex;gap:5px">${['‹','1','2','3','›'].map((p,i)=>`<button class="fchip ${p==='1'?'on':''}" style="min-width:34px;text-align:center">${p}</button>`).join('')}</div></div>`;
+}
+function adminCourses(){
+  const st=s=>({published:['b-ok','Nashr etilgan'],draft:['b-neutral','Qoralama'],archived:['b-warn','Arxivlangan']})[s];
+  return `<p class="pageintro">Kurslarni yarating, tahrirlang va holatini boshqaring.</p>
+  <div style="display:flex;margin-bottom:14px"><button class="btn" style="margin-left:auto" onclick="toast('Kurs konstruktori')">${ic('plus')} Yangi kurs</button></div>
+  <div class="tw"><table><thead><tr><th>Kurs</th><th>Daraja</th><th>Holat</th><th>Talabalar</th><th>Narx (soʻm)</th><th>Oʻqituvchi</th><th></th></tr></thead><tbody>
+  ${DB.adminCourses.map(c=>{const[b,l]=st(c.st);return`<tr><td style="font-weight:600">${c.t}</td><td><span class="badge b-neutral">${c.lvl}</span></td>
+    <td><span class="badge ${b}">${l}</span></td><td class="num">${c.students}</td><td class="num">${c.price}</td><td>${c.teacher}</td>
+    <td><button class="btn ghost sm">${ic('edit')}</button></td></tr>`;}).join('')}
+  </tbody></table></div>`;
+}
+function adminAnalytics(){
+  return `<p class="pageintro">Chuqurroq koʻrsatkichlar — retention, churn va oʻqituvchi samaradorligi.</p>
+  <div class="grid g4" style="margin-bottom:16px">
+    ${kpi('Kunlik faol (DAU)','437','+6% kun',true,'user','#0E6F63')}
+    ${kpi('Kurs tugatish','63%','+4% oy',true,'cert','#2E8B62')}
+    ${kpi('Retention (90 kun)','81%','barqaror',true,'chart','#0B5A9C')}
+    ${kpi('Churn','4.2%','-0.8% oy',true,'users','#B7791F')}
+  </div>
+  <div class="grid g2">
+    <div class="card"><div class="ch"><h3>Talaba faolligi (video koʻrish soati)</h3></div>${lineChart([120,140,132,168,180,175,210,230,220,255,270,290],months,{color:'var(--brand-2)'})}</div>
+    <div class="card"><div class="ch"><h3>Oʻqituvchi samaradorligi</h3></div>
+      ${[['Ustoz Karimov',92],['Nodira Azizova',87],['Sardor Yusupov',79],['Malika Tosheva',74]].map(([t,p])=>`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${t}</span><b class="num">${p}%</b></div><div class="pbar"><i style="width:${p}%;background:var(--gold)"></i></div></div>`).join('')}
+    </div>
+  </div>`;
+}
+function adminPay(){
+  const rows=[['Amina Yusupova','Arab tili','300 000','paid','25-yan'],['Bekzod Aliyev','Ingliz tili','0','pending','20-yan'],['Sardor Umarov','Arab tili','150 000','overdue','10-yan'],['Malika Tosheva','Ingliz tili','240 000','partial','28-yan'],['Jasur Qodirov','Tajvid','380 000','paid','15-yan']];
+  return `<p class="pageintro">Toʻlovlarni holat, sana yoki kurs boʻyicha filtrlang. Provayder: Click / Payme / Uzum (abstraksiya).</p>
+  <div class="grid g4" style="margin-bottom:16px">
+    ${kpi('Bu oy yigʻilgan','104 mln','+8%',true,'cash','#2E8B62')}
+    ${kpi('Kutilayotgan','12 mln','8 talaba',false,'clock','#B7791F')}
+    ${kpi('Qarzdorlik','5.4 mln','3 talaba',false,'cash','#C0503F')}
+    ${kpi('Konversiya','78%','toʻlov',true,'chart','#0E6F63')}
+  </div>
+  <div class="filters"><span class="fchip on">Barchasi</span><span class="fchip">Toʻlangan</span><span class="fchip">Kutilmoqda</span><span class="fchip">Qarzdor</span></div>
+  <div class="tw"><table><thead><tr><th>Talaba</th><th>Kurs</th><th>Summa</th><th>Holat</th><th>Sana</th><th></th></tr></thead><tbody>
+  ${rows.map(([n,c,a,p,d])=>{const[b,l]=payBadge(p);return`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(n)}">${ini(n)}</span>${n}</div></td>
+    <td>${c}</td><td class="num">${a} soʻm</td><td><span class="badge ${b}">${l}</span></td><td>${d}</td>
+    <td><button class="btn ghost sm">${ic('eye')}</button></td></tr>`;}).join('')}
+  </tbody></table></div>`;
+}
+
+/* ============================================================ VIEWS: PARENT */
+function parentDash(){
+  return `<p class="pageintro">Assalomu alaykum, <b>Zebo opa</b>. Farzandingiz <b>Amina</b>ning taʼlim jarayoni.</p>
+  <div class="card" style="margin-bottom:16px;display:flex;align-items:center;gap:14px">
+    <span class="avatar" style="width:52px;height:52px;font-size:18px;background:${avc('Amina Yusupova')}">AY</span>
+    <div style="flex:1"><h3 style="font-size:17px">Amina Yusupova</h3><div style="font-size:13px;color:var(--ink-3)">Arab tili · Ingliz tili · Tajvid · <span class="mono">NAT-2026-000123</span></div></div>
+    <div style="display:flex;gap:8px"><span class="badge b-ok dotb">Faol</span><span class="badge b-gold">🔥 7 kun</span></div>
+  </div>
+  <div class="grid g4" style="margin-bottom:16px">
+    ${kpi('Oʻzlashtirish','67%','+8% hafta',true,'chart','#0E6F63')}
+    ${kpi('Davomat','92%','aʼlo',true,'check','#2E8B62')}
+    ${kpi('Oʻrtacha baho','8.6','+0.4',true,'star','#B5842A')}
+    ${kpi('Keyingi toʻlov','25-yan','150 000 soʻm',false,'cash','#B7791F')}
+  </div>
+  <div class="grid g2">
+    <div class="card"><div class="ch"><h3>Kurslar boʻyicha progress</h3></div>
+      ${DB.courses.map(x=>`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px"><span>${x.t}</span><b class="num">${x.pct}%</b></div><div class="pbar"><i style="width:${x.pct}%;background:${x.c}"></i></div></div>`).join('')}
+      <div style="display:flex;gap:8px;margin-top:6px"><button class="btn ghost sm" onclick="toast('Davomat tafsiloti')">Davomat</button><button class="btn ghost sm" onclick="toast('Baholar')">Baholar</button></div>
+    </div>
+    <div class="card"><div class="ch"><h3>Oʻqituvchi izohlari</h3><span class="badge b-brand">Yangi</span></div>
+      ${DB.feedbacks.map(f=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><div style="display:flex;gap:9px;align-items:center;margin-bottom:6px"><span class="mini-av" style="background:${avc(f.t)}">${ini(f.t)}</span><b style="font-size:13.5px">${f.t}</b><span style="font-size:11.5px;color:var(--ink-3);margin-left:auto">${f.when}</span></div><p style="font-size:13.5px;color:var(--ink-2);margin:0">${f.m}</p></div>`).join('')}
+      <div style="padding:12px 0 0;display:flex;align-items:center;gap:8px;color:var(--ink-3);font-size:12.5px">${ic('tg','rings')} Bu izohlar Telegram orqali ham yuboriladi</div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================ VIEW: DESIGN SYSTEM */
+function designDash(){
+  return `<p class="pageintro">Natiq Academy dizayn tizimi — barcha panellar shu komponentlardan quriladi. Izchil, minimalistik, premium.</p>
+  <div class="grid g2">
+    <div class="card"><div class="ch"><h3>Ranglar</h3></div>
+      <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:10px">
+        ${[['Brand','#0E6F63'],['Brand ink','#0A544B'],['Nur / gold','#B5842A'],['Ink','#1A211F'],['Success','#2E8B62'],['Warning','#B7791F'],['Danger','#C0503F'],['Purple','#6B4FA0']].map(([n,c])=>`<div><div style="height:48px;border-radius:10px;background:${c};border:1px solid var(--line)"></div><small style="font-size:11px;color:var(--ink-3);display:block;margin-top:4px">${n}<br><span class="mono">${c}</span></small></div>`).join('')}
+      </div></div>
+    <div class="card"><div class="ch"><h3>Tipografiya</h3></div>
+      <div style="font-family:var(--fd);font-size:30px;font-weight:700;letter-spacing:-.02em">Bricolage Grotesque</div>
+      <div style="color:var(--ink-3);font-size:12px;margin-bottom:14px">Display · sarlavhalar va KPI</div>
+      <div style="font-size:17px">IBM Plex Sans — asosiy matn oʻqilishi qulay va professional.</div>
+      <div class="mono" style="margin-top:10px;color:var(--brand-ink)">IBM Plex Mono · NAT-2026-000123</div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="ch"><h3>Tugmalar va nishonlar</h3></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+      <button class="btn">${ic('plus')} Asosiy</button><button class="btn ghost">Ikkilamchi</button><button class="btn gold">${ic('cert')} Gold</button>
+      <button class="btn sm">Kichik</button></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span class="badge b-ok dotb">Toʻlangan</span><span class="badge b-warn">Kutilmoqda</span><span class="badge b-bad">Muddati oʻtgan</span>
+      <span class="badge b-brand">Yangi</span><span class="badge b-gold">🔥 Streak</span><span class="badge b-purple">Beta</span><span class="badge b-neutral">Qoralama</span></div>
+  </div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><div class="ch"><h3>Progress</h3></div>
+      <div style="display:flex;gap:16px;align-items:center"><div class="ring" style="--p:72;--s:64px"><b>72%</b></div>
+      <div style="flex:1"><div class="pbar" style="margin-bottom:10px"><i style="width:72%"></i></div><div class="pbar gold"><i style="width:45%"></i></div></div></div></div>
+    <div class="card"><div class="ch"><h3>Skeleton (yuklanish)</h3></div>
+      <div class="sk" style="height:14px;width:80%;margin-bottom:9px"></div><div class="sk" style="height:14px;width:60%;margin-bottom:9px"></div><div class="sk" style="height:40px;width:100%"></div></div>
+    <div class="card"><div class="ch"><h3>Empty state</h3></div>
+      <div class="empty" style="padding:14px 6px"><div class="e-ic">📭</div><b>Hozircha boʻsh</b>Bu yerda hozircha kurslar mavjud emas.</div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="ch"><h3>Toast, Tabs va Tooltip</h3></div>
+    <div class="tabs"><button class="tab on">Umumiy</button><button class="tab">Darslar</button><button class="tab">Baholar</button></div>
+    <button class="btn ghost" onclick="toast('Bu — toast bildirishnoma ✓')">Toast koʻrsatish</button></div>`;
+}
+
+/* ============================================================ PUBLIC SITE */
+function site(){
+  const courses=[
+    {t:'Arab tili',em:'🕌',bg:'var(--brand-soft)',lvl:'Beginner → Advanced',dur:'6 oy',price:'450 000'},
+    {t:'Ingliz tili',em:'🇬🇧',bg:'#DCE8F4',lvl:'Elementary → IELTS',dur:'8 oy',price:'480 000'},
+    {t:'Tajvid asoslari',em:'📖',bg:'var(--gold-soft)',lvl:'Boshlangʻich',dur:'3 oy',price:'380 000'},
+    {t:'Matematika',em:'📐',bg:'var(--purple-soft)',lvl:'Milliy sertifikat',dur:'9 oy',price:'500 000'},
+  ];
+  const teachers=[['Ustoz Karimov','Arab tili · Tajvid','12 yil tajriba'],['Nodira Azizova','Ingliz tili · IELTS 8.0','8 yil tajriba'],['Sardor Yusupov','Matematika','10 yil tajriba']];
+  const feats=[['book','Tuzilgan oʻquv dasturi','Modul → Dars → Test → Vazifa. Har qadam izchil va tekshirilgan.'],
+    ['play','Video va interaktiv darslar','Toʻxtagan joyingizdan davom eting, progress avtomatik saqlanadi.'],
+    ['users','Tajribali ustozlar','Har bir talabaga individual eʼtibor va jonli fikr-mulohaza.'],
+    ['cert','Rasmiy sertifikat','QR kod bilan tekshiriladigan, ishonchli yakuniy sertifikat.'],
+    ['tg','Telegram integratsiyasi','Dars, vazifa va toʻlov eslatmalari toʻgʻridan-toʻgʻri Telegram’da.'],
+    ['chart','Aniq natija','Progress, davomat va baholar ota-onaga ham shaffof koʻrinadi.']];
+  return `<div class="site"><nav class="snav"><div class="in">
+    <div style="display:flex;align-items:center;gap:10px">${GLYPH}<div><b style="font-family:var(--fd);font-size:15px">Natiq Academy</b></div></div>
+    <div class="links"><a href="#courses">Kurslar</a><a href="#why">Nega biz</a><a href="#how">Qanday ishlaydi</a><a href="#teachers">Ustozlar</a><a href="#faq">FAQ</a></div>
+    <div class="r"><button class="btn ghost sm" onclick="setPersona('student')">Kirish</button><button class="btn sm" onclick="scrollToId('cta')">Bepul dars</button></div>
+  </div></nav>
+
+  <div class="sect"><div class="hero">
+    <div><div class="eyebrow">Zamonaviy taʼlim akademiyasi</div>
+      <h1>Ilm olishning<br>zamonaviy usuli</h1>
+      <p>Arab tili, ingliz tili va boshqa yoʻnalishlarda tuzilgan onlayn kurslar — jonli ustozlar, interaktiv darslar va aniq natija bilan.</p>
+      <div class="cta"><button class="btn" onclick="scrollToId('courses')">${ic('book')} Kurslarni koʻrish</button>
+        <button class="btn ghost" onclick="scrollToId('cta')">Bepul darsga yozilish</button></div>
+      <div style="display:flex;gap:22px;margin-top:26px;font-size:13px;color:var(--ink-3)">
+        <span>✓ Sertifikat</span><span>✓ Telegram bot</span><span>✓ Ota-ona nazorati</span></div>
+    </div>
+    <div class="hero-card">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--brand);font-weight:600"><span style="width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block"></span>JONLI DARS · BUGUN 19:00</div>
+      <h3 style="font-size:19px;margin:10px 0 3px">Arab tili — Beginner</h3>
+      <div style="font-size:12.5px;color:var(--ink-3)">14-dars · Ustoz Karimov</div>
+      <div style="display:flex;align-items:center;gap:14px;margin:16px 0">
+        <div class="ring" style="--p:72;--s:72px"><b>72%</b></div>
+        <div><div style="font-size:13px;color:var(--ink-2)">24 / 36 dars yakunlandi</div>
+        <div style="display:flex;gap:6px;margin-top:8px"><span class="badge b-gold">🔥 7 kun</span><span class="badge b-brand">⭐ 1240 XP</span></div></div>
+      </div>
+      <button class="btn full" onclick="setPersona('student')">${ic('play')} Panelni koʻrish</button>
+    </div>
+  </div>
+  <div class="statbar"><div><b class="num">2 400+</b><span>faol oʻquvchi</span></div><div><b class="num">18</b><span>kurs yoʻnalishi</span></div><div><b class="num">96%</b><span>tavsiya darajasi</span></div><div><b class="num">40+</b><span>tajribali ustoz</span></div></div>
+  </div>
+
+  <div class="sect block" id="courses"><h2>Ommabop kurslar</h2><p class="lead">Har bir kurs modullarga boʻlingan: video, test, uy vazifasi va jonli darslar bilan.</p>
+    <div class="grid g4">${courses.map(c=>`<div class="ccard"><div class="top" style="background:${c.bg}">${c.em}</div>
+      <div class="bd"><h4>${c.t}</h4><div style="font-size:12.5px;color:var(--ink-3)">${c.lvl}</div>
+        <div class="meta"><span>${ic('clock','rings')} ${c.dur}</span><span class="mono">${c.price} soʻm</span></div>
+        <button class="btn ghost full sm" onclick="scrollToId('cta')">Batafsil</button></div></div>`).join('')}</div></div>
+
+  <div class="sect block" id="why" style="background:var(--surface-2);border-radius:22px;padding:44px"><h2>Nega Natiq Academy?</h2><p class="lead">Zamonaviy platforma va tajribali ustozlar — bir joyda.</p>
+    <div class="grid g3">${feats.map(([i,t,d])=>`<div class="feat"><span class="fi">${ic(i)}</span><div><b>${t}</b><p>${d}</p></div></div>`).join('')}</div></div>
+
+  <div class="sect block" id="how"><h2>Qanday ishlaydi</h2><p class="lead">Toʻrt oddiy qadamda oʻrganishni boshlang.</p>
+    <div class="steps">
+      ${[['Yoziling','Bepul sinov darsiga onlayn yoziling'],['Kurs tanlang','Darajangizga mos yoʻnalishni tanlang'],['Oʻrganing','Video, jonli dars, test va vazifalar'],['Sertifikat','Kursni yakunlab, QR sertifikat oling']].map(([t,d],i)=>`<div class="step"><div class="no">${i+1}</div><b>${t}</b><p>${d}</p></div>`).join('')}
+    </div></div>
+
+  <div class="sect block" id="teachers"><h2>Ustozlarimiz</h2><p class="lead">Har biri oʻz sohasining tajribali mutaxassisi.</p>
+    <div class="grid g3">${teachers.map(([n,s,e])=>`<div class="tcard"><div style="display:flex;align-items:center;gap:13px"><span class="avatar" style="width:52px;height:52px;font-size:18px;background:${avc(n)}">${ini(n)}</span><div><h4 style="font-size:16px">${n}</h4><div style="font-size:12.5px;color:var(--ink-3)">${s}</div></div></div>
+      <div style="margin-top:12px;font-size:13px;color:var(--ink-2)">${e} · <span class="badge b-gold">⭐ 4.9</span></div></div>`).join('')}</div></div>
+
+  <div class="sect block"><div class="grid g3">
+    <div class="tcard"><div class="q">“Arab tilini noldan boshlagan edim, 6 oyda Qur'onni tushunib oʻqiy boshladim. Ustozlar juda saboqli.”</div><div class="who"><span class="mini-av" style="background:${avc('Aziza K')}">AK</span><div><b style="font-size:13.5px">Aziza Karimova</b><div style="font-size:12px;color:var(--ink-3)">Arab tili bitiruvchisi</div></div></div></div>
+    <div class="tcard"><div class="q">“Telegram bot orqali farzandimning davomati va baholarini kuzatib boraman. Juda qulay va shaffof.”</div><div class="who"><span class="mini-av" style="background:${avc('Bobur T')}">BT</span><div><b style="font-size:13.5px">Bobur Tohirov</b><div style="font-size:12px;color:var(--ink-3)">Ota-ona</div></div></div></div>
+    <div class="tcard"><div class="q">“IELTS 7.5 oldim! Interaktiv testlar va jonli darslar juda samarali boʻldi.”</div><div class="who"><span class="mini-av" style="background:${avc('Doston M')}">DM</span><div><b style="font-size:13.5px">Doston Mirzayev</b><div style="font-size:12px;color:var(--ink-3)">Ingliz tili bitiruvchisi</div></div></div></div>
+  </div></div>
+
+  <div class="sect block" id="faq"><h2>Koʻp beriladigan savollar</h2><div class="faq" style="margin-top:20px;max-width:760px">
+    ${[['Kurslar qancha davom etadi?','Yoʻnalishga qarab 3 oydan 9 oygacha. Har kurs modullarga boʻlingan va oʻz tezligingizda oʻrganasiz.'],
+      ['Darslar jonlimi yoki yozib olinganmi?','Ikkalasi ham. Yozib olingan video darslar istalgan vaqtda, jonli darslar esa jadval boʻyicha oʻtiladi.'],
+      ['Toʻlovni qanday amalga oshiraman?','Click, Payme yoki Uzum orqali onlayn. Boʻlib toʻlash imkoniyati ham mavjud.'],
+      ['Sertifikat beriladimi?','Ha, kursni muvaffaqiyatli yakunlagach QR kod bilan tekshiriladigan rasmiy sertifikat olasiz.'],
+      ['Ota-onalar nazorat qila oladimi?','Albatta. Ota-ona alohida panel orqali farzandi progressi, davomati va toʻlovini koʻradi.']].map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('')}
+  </div></div>
+
+  <div class="sect" id="cta"><div class="ctaband"><h2>Bugun bepul darsdan boshlang</h2><p>Bir daqiqada roʻyxatdan oʻting va birinchi darsingizni bepul sinab koʻring. Hech qanday majburiyat yoʻq.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn gold" onclick="toast('Roʻyxatdan oʻtish formasi ochildi')">${ic('send')} Bepul darsga yozilish</button>
+    <button class="btn ghost" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" onclick="setPersona('student')">Demoni koʻrish</button></div></div></div>
+
+  <footer class="sfoot"><div class="in">
+    <div><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">${GLYPH}<b style="font-family:var(--fd)">Natiq Academy</b></div>
+      <p style="font-size:13px;color:var(--ink-3);margin:0;max-width:34ch">Ilm olishning zamonaviy usuli. Toshkent, Oʻzbekiston.</p></div>
+    <div><h5>Platforma</h5><a onclick="scrollToId('courses')">Kurslar</a><a onclick="scrollToId('teachers')">Ustozlar</a><a onclick="setPersona('student')">Kirish</a></div>
+    <div><h5>Kompaniya</h5><a onclick="scrollToId('why')">Biz haqimizda</a><a onclick="scrollToId('faq')">FAQ</a><a>Aloqa</a></div>
+    <div><h5>Rollar demosi</h5><a onclick="setPersona('teacher')">Oʻqituvchi</a><a onclick="setPersona('admin')">Admin</a><a onclick="setPersona('parent')">Ota-ona</a></div>
+  </div><div class="copy">© 2026 Natiq Academy · Barcha huquqlar himoyalangan · Prototip v0.1</div></footer>
+  </div>`;
+}
+
+/* ============================================================ ROUTER */
+const VIEWS={
+  student:{dash:['Boshqaruv paneli','Bugungi oʻquv jarayoni',studentDash],courses:['Mening kurslarim','3 ta faol kurs',studentCourses],hw:['Uy vazifalari','2 ta faol vazifa',studentHw],att:['Davomat','92% umumiy davomat',studentAtt]},
+  teacher:{dash:['Boshqaruv paneli','Bugungi darslar va vazifalar',teacherDash],review:['Vazifa tekshiruvi','4 ta vazifa navbatda',teacherReview],att:['Davomat','Guruh: AR-B1',teacherAtt],groups:['Guruhlarim','3 ta guruh',teacherGroups]},
+  admin:{dash:['KPI paneli','Akademiya koʻrsatkichlari',adminDash],students:['Talabalar','690 ta talaba',adminStudents],courses:['Kurslar','Kurs boshqaruvi',adminCourses],analytics:['Analitika','Chuqur koʻrsatkichlar',adminAnalytics],pay:['Toʻlovlar','Moliyaviy holat',adminPay]},
+  parent:{dash:['Boshqaruv paneli','Farzand: Amina',parentDash]},
+  design:{dash:['Dizayn tizimi','Komponentlar kutubxonasi',designDash]},
+};
+function render(){
+  const root=document.getElementById('root');
+  if(STATE.persona==='site'){root.innerHTML=site();window.scrollTo(0,0);return;}
+  const v=VIEWS[STATE.persona][STATE.view]||VIEWS[STATE.persona].dash;
+  root.innerHTML=shell(STATE.persona,v[2](),v[0],v[1]);
+}
+function go(p,v){STATE.persona=p;STATE.view=v;render();document.querySelector('.content')?.scrollTo(0,0);window.scrollTo(0,0);}
+function setPersona(p){STATE.persona=p;STATE.view='dash';renderPersona();render();window.scrollTo(0,0);}
+function pickAtt(el){el.parentElement.querySelectorAll('.fchip').forEach(c=>{c.classList.remove('on');c.style.background='';c.style.borderColor='';});el.classList.add('on');el.style.background='var(--brand)';el.style.borderColor='transparent';}
+function scrollToId(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+function toggleTheme(){const r=document.documentElement;const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');toast(cur==='dark'?'Kunduzgi rejim':'Tungi rejim');}
+
+/* persona switcher */
+const PERSONAS=[['site','Ommaviy sayt'],['student','Talaba'],['teacher','Oʻqituvchi'],['admin','Admin'],['parent','Ota-ona'],['design','Dizayn']];
+function renderPersona(){document.getElementById('persona').innerHTML='<span class="plab">Demo koʻrinish</span>'+PERSONAS.map(([k,l])=>`<button class="${STATE.persona===k?'on':''}" onclick="setPersona('${k}')"><span class="pdot"></span>${l}</button>`).join('');}
+renderPersona();render();
+</script>
