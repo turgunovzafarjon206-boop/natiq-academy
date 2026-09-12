@@ -1,4 +1,4 @@
-<title>Natiq Academy Prototip</title>
+<title>Natiq Academy</title>
 <meta name="description" content="Natiq Academy — barcha rollar uchun interaktiv SaaS prototip.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -297,629 +297,513 @@ tbody tr:hover{background:var(--surface-2)}
 .mobnav button svg{width:20px;height:20px}
 .mobnav button.on{color:var(--brand-ink)}
 </style>
+<style>
+/* ---- language switch ---- */
+.langsw{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--surface)}
+.langsw button{border:none;background:transparent;padding:6px 10px;font-size:12px;font-weight:700;color:var(--ink-3)}
+.langsw button.on{background:var(--brand);color:#fff}
+/* ---- public site ---- */
+.site{min-height:100vh}
+.snav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.snav .in{max-width:1120px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:18px}
+.snav .links{display:flex;gap:18px;margin-left:10px}
+.snav .links a{font-size:13.5px;color:var(--ink-2);text-decoration:none;font-weight:500;cursor:pointer}
+.snav .links a:hover{color:var(--brand-ink)}
+.snav .r{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sect{max-width:1120px;margin:0 auto;padding:0 24px}
+.hero{padding:60px 0 40px;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.eyebrow{font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:500}
+.hero h1{font-size:clamp(32px,5vw,50px);line-height:1.05;margin:14px 0}
+.hero p{font-size:17px;color:var(--ink-2);max-width:46ch;line-height:1.55}
+.hero .cta{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.hero-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--sh)}
+.statbar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:8px}
+.statbar div{background:var(--surface);padding:18px 14px;text-align:center}
+.statbar b{font-family:var(--fd);font-size:24px;font-weight:700;display:block}
+.statbar span{font-size:12px;color:var(--ink-3)}
+.block{padding:48px 0}
+.block h2{font-size:clamp(24px,3.4vw,32px);margin-bottom:8px}
+.block .lead{color:var(--ink-2);max-width:60ch;margin-bottom:26px}
+.ccard{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--sh-sm);display:flex;flex-direction:column}
+.ccard .top{height:92px;display:flex;align-items:center;justify-content:center;font-size:36px}
+.ccard .bd{padding:15px 17px;display:flex;flex-direction:column;gap:7px;flex:1}
+.ccard h4{font-size:16px}
+.ccard .meta{font-size:12.5px;color:var(--ink-3);display:flex;gap:12px;flex-wrap:wrap;margin-top:auto}
+.feat{display:flex;gap:13px;align-items:flex-start}
+.feat .fi{width:40px;height:40px;border-radius:11px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center;flex:none}
+.feat .fi svg{width:20px;height:20px}
+.feat b{font-size:15px;font-family:var(--fd)}
+.feat p{font-size:13.5px;color:var(--ink-2);margin:3px 0 0}
+.ctaband{background:linear-gradient(150deg,var(--brand),var(--brand-ink));border-radius:22px;padding:42px;text-align:center;color:#fff;margin:20px 0}
+.ctaband h2{color:#fff}.ctaband p{color:rgba(255,255,255,.85);max-width:50ch;margin:10px auto 20px}
+.sfoot{border-top:1px solid var(--line);margin-top:36px;padding:26px 24px;text-align:center;color:var(--ink-3);font-size:13px}
+/* ---- auth ---- */
+.auth{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.auth-brand{background:linear-gradient(150deg,var(--brand),var(--brand-ink));color:#fff;padding:clamp(32px,5vw,58px);display:flex;flex-direction:column;justify-content:center;gap:24px;position:relative;overflow:hidden}
+.auth-brand::after{content:"";position:absolute;right:-80px;bottom:-80px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.06)}
+.auth-brand .logo{display:flex;align-items:center;gap:12px;position:relative}
+.auth-brand .logo b{font-family:var(--fd);font-size:19px}
+.auth-brand h1{color:#fff;font-size:clamp(26px,3.6vw,36px);line-height:1.1;position:relative}
+.auth-brand .sub{color:rgba(255,255,255,.85);font-size:15.5px;max-width:40ch;position:relative}
+.auth-feat{display:flex;flex-direction:column;gap:13px;position:relative}
+.auth-feat div{display:flex;gap:11px;align-items:center;font-size:14px;color:rgba(255,255,255,.92)}
+.auth-feat .fi{width:31px;height:31px;border-radius:9px;background:rgba(255,255,255,.16);display:grid;place-items:center;flex:none}
+.auth-feat .fi svg{width:16px;height:16px}
+.auth-form{display:flex;align-items:center;justify-content:center;padding:40px 26px;background:var(--ground)}
+.auth-card{width:100%;max-width:390px}
+.auth-card .mlogo{display:none}.auth-card .back{font-size:13px;color:var(--ink-3);text-decoration:none;display:inline-flex;gap:5px;margin-bottom:18px;cursor:pointer}
+.auth-card h2{font-size:26px;margin-bottom:4px}
+.auth-card .muted{color:var(--ink-3);font-size:14px;margin-bottom:24px}
+.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field .inp{position:relative;display:flex;align-items:center}
+.field .inp svg{position:absolute;left:12px;width:16px;height:16px;color:var(--ink-3)}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-family:var(--fb);font-size:14px;background:var(--surface);color:var(--ink);outline:none}
+.field .inp input{padding-left:38px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.auth-hint{font-size:12.5px;color:var(--ink-2);margin-top:16px;text-align:center;background:var(--surface-2);border:1px solid var(--line);padding:10px;border-radius:10px}
+.auth-hint b{color:var(--ink)}
+@media(max-width:820px){.auth{grid-template-columns:1fr}.auth-brand{display:none}.auth-card .mlogo{display:flex;align-items:center;gap:10px;margin-bottom:20px}.auth-card .mlogo b{font-family:var(--fd);font-size:17px}.hero{grid-template-columns:1fr}.snav .links{display:none}}
+/* ---- modal ---- */
+.modal-ov{position:fixed;inset:0;z-index:90;background:rgba(20,24,22,.5);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:16px;width:100%;max-width:520px;box-shadow:var(--sh);animation:pop .18s ease}
+@keyframes pop{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.modal .mh{display:flex;align-items:center;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.modal .mh h3{font-size:17px}.modal .mh .x{margin-left:auto;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);display:grid;place-items:center;font-size:18px;cursor:pointer}
+.modal .mb{padding:20px;max-height:65vh;overflow-y:auto}
+.modal .mf{display:flex;gap:10px;justify-content:flex-end;padding:16px 20px;border-top:1px solid var(--line)}
+.frm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.frm-grid .full{grid-column:1/-1}
+@media(max-width:520px){.frm-grid{grid-template-columns:1fr}}
+/* topic pill */
+.topic{display:inline-flex;align-items:center;gap:7px;background:var(--gold-soft);color:var(--gold);border-radius:9px;padding:6px 11px;font-size:12.5px;font-weight:600}
+</style>
 
 <div id="persona"></div>
 <div id="root"></div>
+<div id="modal-root"></div>
 <div id="toast"><span class="tk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></span><span id="toastmsg"></span></div>
 
 <script>
-/* ============================================================ ICONS */
+/* ================= ICONS ================= */
 const I={
-  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
-  book:'<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 0 2 2h12"/>',
-  task:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="m8 12 3 3 5-6"/>',
-  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
-  check:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m8 12 2.5 2.5L16 9"/>',
-  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
-  users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 6a3 3 0 0 1 0 6M21 20c0-2.5-1.3-4-3.5-4.6"/>',
-  user:'<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3-6 7-6s7 2.4 7 6"/>',
-  cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/>',
-  cert:'<circle cx="12" cy="9" r="5.2"/><path d="M9 13.5 8 21l4-2 4 2-1-7.5"/>',
-  bell:'<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
-  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/>',
-  play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/>',
-  star:'<path d="M12 3l2.6 5.3 5.9.9-4.3 4.2 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.5l5.9-.9L12 3Z"/>',
-  fire:'<path d="M12 3c1 3-1 4-1 6 0 1 1 2 2 2 2 0 3-3 2-5 3 2 4 5 4 8a7 7 0 1 1-14 0c0-3 2-5 3-7 1 1 1 2 1 3Z"/>',
-  grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
-  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
-  plus:'<path d="M12 5v14M5 12h14"/>',
-  send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/>',
-  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
-  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>',
-  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>',
-  msg:'<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/>',
-  tg:'<path d="M21 4 3 11l5 2 2 6 3-4 5 4 3-15Z"/>',
-  award:'<circle cx="12" cy="8" r="5"/><path d="M9 13l-2 8 5-3 5 3-2-8"/>',
-  layers:'<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5M3 18l9 5 9-5"/>',
+ home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',book:'<path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 0 2 2h12"/>',
+ task:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="m8 12 3 3 5-6"/>',cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+ check:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m8 12 2.5 2.5L16 9"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 6a3 3 0 0 1 0 6M21 20c0-2.5-1.3-4-3.5-4.6"/>',
+ user:'<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3-6 7-6s7 2.4 7 6"/>',cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/>',
+ cert:'<circle cx="12" cy="9" r="5.2"/><path d="M9 13.5 8 21l4-2 4 2-1-7.5"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',phone:'<path d="M4 4h4l2 5-3 2a12 12 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 6a2 2 0 0 1 2-2Z"/>',
+ lock:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>',
+ layers:'<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5M3 18l9 5 9-5"/>',edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>',
+ trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ book2:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14Z"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>',
+ play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/>',send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/>',
 };
-const ic=(n,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${I[n]||''}</svg>`;
-const GLYPH=`<span class="glyph">${'<svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5 3 7v6.2c0 4.9 3.6 7.7 9 9.3 5.4-1.6 9-4.4 9-9.3V7l-9-4.5Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 12.2 11 14.8l4.8-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</span>`;
+const ic=(n,c='')=>`<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${I[n]||''}</svg>`;
+const GLYPH=`<span class="glyph"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5 3 7v6.2c0 4.9 3.6 7.7 9 9.3 5.4-1.6 9-4.4 9-9.3V7l-9-4.5Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.4 12.2 11 14.8l4.8-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+const AVC=['#0E6F63','#0B5A9C','#B5842A','#6B4FA0'];
+const avc=s=>AVC[[...(s||'N')].reduce((a,c)=>a+c.charCodeAt(0),0)%AVC.length];
+const ini=n=>(n||'N').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const uid=()=>Math.random().toString(36).slice(2,9);
+const fmt=n=>Number(n||0).toLocaleString('ru-RU');
+function toast(m){const t=document.getElementById('toast');document.getElementById('toastmsg').textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2400);}
+function toggleTheme(){const r=document.documentElement;const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');}
 
-const AVC=['#0E6F63','#0B5A9C','#B5842A','#6B4FA0','#C0503F','#2E8B62'];
-const avc=s=>AVC[[...s].reduce((a,c)=>a+c.charCodeAt(0),0)%AVC.length];
-const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-
-function toast(m){const t=document.getElementById('toast');document.getElementById('toastmsg').textContent=m;
-  t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),2200);}
-
-/* ============================================================ MOCK DATA (UZ) */
-const DB={
-  student:{name:'Amina Yusupova',code:'NAT-2026-000123',xp:1240,streak:7,level:'Beginner'},
-  courses:[
-    {t:'Arab tili — Beginner',em:'🕌',c:'#0E6F63',bg:'var(--brand-soft)',pct:72,done:24,total:36,teacher:'Ustoz Karimov',next:'Bugun · 19:00'},
-    {t:'Ingliz tili — Elementary',em:'🇬🇧',c:'#0B5A9C',bg:'#DCE8F4',pct:41,done:11,total:27,teacher:'Ms. Nodira',next:'Ertaga · 17:30'},
-    {t:'Tajvid asoslari',em:'📖',c:'#B5842A',bg:'var(--gold-soft)',pct:88,done:22,total:25,teacher:'Ustoz Karimov',next:'Chorshanba · 18:00'},
-  ],
-  homework:[
-    {t:'Arab alifbosi — yozuv mashqi',course:'Arab tili',due:'Bugun',st:'pending',score:null},
-    {t:'Present Simple — 20 ta gap',course:'Ingliz tili',due:'2 kun',st:'submitted',score:null},
-    {t:'Suraga tajvid tahlili',course:'Tajvid',due:'Kecha',st:'graded',score:'9/10'},
-    {t:'Lugʻat: 30 ta yangi soʻz',course:'Arab tili',due:'3 kun',st:'revision',score:null},
-  ],
-  ach:[
-    {em:'🔥',t:'7 kunlik streak',lit:1},{em:'⭐',t:'1000 XP toʻplandi',lit:1},
-    {em:'🏆',t:'Birinchi kurs tugadi',lit:1},{em:'🎯',t:'50 dars yakunlandi',lit:1},
-    {em:'🌙',t:'Tungi oʻquvchi',lit:0},{em:'💎',t:'Mukammal hafta',lit:0},
-  ],
-  reviewQueue:[
-    {s:'Amina Yusupova',t:'Arab alifbosi — yozuv',course:'Arab tili',when:'12 daqiqa oldin',files:'2 rasm'},
-    {s:'Bekzod Aliyev',t:'Present Simple mashq',course:'Ingliz tili',when:'40 daqiqa oldin',files:'PDF'},
-    {s:'Dilnoza Rahimova',t:'Tajvid audio',course:'Tajvid',when:'1 soat oldin',files:'Audio'},
-    {s:'Sardor Umarov',t:'Lugʻat mashqi',course:'Arab tili',when:'2 soat oldin',files:'Matn'},
-  ],
-  todayLessons:[
-    {t:'Arab tili — Beginner',grp:'AR-B1',time:'17:00',dur:'60 daq',n:14},
-    {t:'Tajvid asoslari',grp:'TJ-2',time:'18:30',dur:'45 daq',n:9},
-    {t:'Arab tili — Elementary',grp:'AR-E1',time:'20:00',dur:'60 daq',n:12},
-  ],
-  students:[
-    {n:'Amina Yusupova',code:'000123',course:'Arab tili',grp:'AR-B1',pct:72,att:96,pay:'paid',ph:'+998 90 123 45 67'},
-    {n:'Bekzod Aliyev',code:'000124',course:'Ingliz tili',grp:'EN-E1',pct:41,att:88,pay:'pending',ph:'+998 90 234 56 78'},
-    {n:'Dilnoza Rahimova',code:'000125',course:'Tajvid',grp:'TJ-2',pct:88,att:99,pay:'paid',ph:'+998 90 345 67 89'},
-    {n:'Sardor Umarov',code:'000126',course:'Arab tili',grp:'AR-B1',pct:33,att:74,pay:'overdue',ph:'+998 90 456 78 90'},
-    {n:'Malika Tosheva',code:'000127',course:'Ingliz tili',grp:'EN-E1',pct:60,att:91,pay:'partial',ph:'+998 90 567 89 01'},
-    {n:'Jasur Qodirov',code:'000128',course:'Tajvid',grp:'TJ-2',pct:95,att:100,pay:'paid',ph:'+998 90 678 90 12'},
-    {n:'Nigora Ismoilova',code:'000129',course:'Arab tili',grp:'AR-E1',pct:52,att:83,pay:'paid',ph:'+998 90 789 01 23'},
-    {n:'Otabek Yoʻldoshev',code:'000130',course:'Ingliz tili',grp:'EN-E1',pct:27,att:69,pay:'overdue',ph:'+998 90 890 12 34'},
-  ],
-  adminCourses:[
-    {t:'Arab tili — Beginner',lvl:'Beginner',st:'published',students:64,price:'450 000',teacher:'U. Karimov'},
-    {t:'Ingliz tili — Elementary',lvl:'Elementary',st:'published',students:48,price:'480 000',teacher:'N. Azizova'},
-    {t:'Tajvid asoslari',lvl:'Basic',st:'published',students:39,price:'380 000',teacher:'U. Karimov'},
-    {t:'Arab tili — Intermediate',lvl:'Intermediate',st:'draft',students:0,price:'520 000',teacher:'—'},
-    {t:'Matematika — Milliy sertifikat',lvl:'Advanced',st:'archived',students:22,price:'500 000',teacher:'S. Yusupov'},
-  ],
-  payStatus:{course:'450 000',paid:'300 000',left:'150 000',next:'25-yanvar'},
-  feedbacks:[
-    {t:'Ustoz Karimov',c:'Arab tili',m:'Amina yozuv mashqlarida ajoyib natija koʻrsatmoqda. Talaffuzga eʼtibor berilsa yaxshi.',when:'2 kun oldin'},
-    {t:'Ms. Nodira',c:'Ingliz tili',m:'Grammatika mustahkam, endi ogʻzaki nutqni koʻproq mashq qilamiz.',when:'5 kun oldin'},
-  ],
+/* ================= i18n ================= */
+const DICT={
+ uz:{tagline:'Ilm olishning zamonaviy usuli',about:'Biz haqimizda',courses:'Kurslar',enroll:'Kursga yozilish',login:'Kirish',logout:'Chiqish',
+   whyus:'Nega Natiq Academy?',ourcourses:'Bizning kurslar',heroSub:'Zamonaviy onlayn platforma — jonli ustozlar, tuzilgan darslar va aniq natija.',
+   viewCourses:'Kurslarni koʻrish',freeLesson:'Bepul darsga yozilish',dashboard:'Boshqaruv paneli',students:'Talabalar',groups:'Guruhlar',
+   teachers:'Oʻqituvchilar',users:'Foydalanuvchilar',finance:'Moliya',analytics:'Analitika',payments:'Toʻlovlar',attendance:'Davomat',
+   myGroups:'Guruhlarim',add:'Qoʻshish',save:'Saqlash',cancel:'Bekor qilish',search:'Qidirish',name:'F.I.SH',phone:'Telefon',password:'Parol',role:'Rol',
+   addStudent:'Talaba qoʻshish',addGroup:'Guruh qoʻshish',addCourse:'Kurs qoʻshish',addUser:'Foydalanuvchi qoʻshish',addPayment:'Toʻlov qoʻshish',
+   topic:'Hozirgi mavzu',schedule:'Jadval',level:'Daraja',price:'Narx',status:'Holat',course:'Kurs',group:'Guruh',teacher:'Oʻqituvchi',amount:'Summa',date:'Sana',
+   welcome:'Xush kelibsiz',noData:'Hozircha maʼlumot yoʻq',totalStudents:'Jami talabalar',revenue:'Daromad',collected:'Yigʻilgan',pending:'Kutilmoqda',debt:'Qarzdorlik',
+   updateTopic:'Mavzuni yangilash',myGroup:'Mening guruhim',paymentStatus:'Toʻlov holati',roleAdmin:'Administrator',roleFinance:'Moliyachi',roleTeacher:'Oʻqituvchi',roleStudent:'Talaba',roleParent:'Ota-ona',
+   loginTitle:'Hisobingizga kiring',loginSub:'Maʼlumotlarni admin beradi',backHome:'Bosh sahifa',apply:'Ariza qoldirish',applied:'Arizangiz qabul qilindi! Tez orada bogʻlanamiz.',
+   leads:'Arizalar',parentPhone:'Ota-ona telefoni',selectPanel:'Panel (rol)',balance:'Toʻlangan',fullName:'Toʻliq ism',method:'Usul'},
+ ru:{tagline:'Современный способ обучения',about:'О нас',courses:'Курсы',enroll:'Записаться',login:'Войти',logout:'Выйти',
+   whyus:'Почему Natiq Academy?',ourcourses:'Наши курсы',heroSub:'Современная онлайн-платформа — живые преподаватели, структурированные уроки и результат.',
+   viewCourses:'Смотреть курсы',freeLesson:'Записаться на пробный урок',dashboard:'Панель',students:'Ученики',groups:'Группы',
+   teachers:'Преподаватели',users:'Пользователи',finance:'Финансы',analytics:'Аналитика',payments:'Платежи',attendance:'Посещаемость',
+   myGroups:'Мои группы',add:'Добавить',save:'Сохранить',cancel:'Отмена',search:'Поиск',name:'ФИО',phone:'Телефон',password:'Пароль',role:'Роль',
+   addStudent:'Добавить ученика',addGroup:'Добавить группу',addCourse:'Добавить курс',addUser:'Добавить пользователя',addPayment:'Добавить платёж',
+   topic:'Текущая тема',schedule:'Расписание',level:'Уровень',price:'Цена',status:'Статус',course:'Курс',group:'Группа',teacher:'Преподаватель',amount:'Сумма',date:'Дата',
+   welcome:'Добро пожаловать',noData:'Пока нет данных',totalStudents:'Всего учеников',revenue:'Доход',collected:'Собрано',pending:'Ожидается',debt:'Задолженность',
+   updateTopic:'Обновить тему',myGroup:'Моя группа',paymentStatus:'Статус оплаты',roleAdmin:'Администратор',roleFinance:'Финансист',roleTeacher:'Преподаватель',roleStudent:'Ученик',roleParent:'Родитель',
+   loginTitle:'Войдите в аккаунт',loginSub:'Данные выдаёт администратор',backHome:'На главную',apply:'Оставить заявку',applied:'Заявка принята! Мы скоро свяжемся.',
+   leads:'Заявки',parentPhone:'Телефон родителя',selectPanel:'Панель (роль)',balance:'Оплачено',fullName:'Полное имя',method:'Способ'},
+ en:{tagline:'A modern way to learn',about:'About',courses:'Courses',enroll:'Enroll',login:'Log in',logout:'Log out',
+   whyus:'Why Natiq Academy?',ourcourses:'Our courses',heroSub:'A modern online platform — live teachers, structured lessons and real results.',
+   viewCourses:'View courses',freeLesson:'Book a free lesson',dashboard:'Dashboard',students:'Students',groups:'Groups',
+   teachers:'Teachers',users:'Users',finance:'Finance',analytics:'Analytics',payments:'Payments',attendance:'Attendance',
+   myGroups:'My groups',add:'Add',save:'Save',cancel:'Cancel',search:'Search',name:'Full name',phone:'Phone',password:'Password',role:'Role',
+   addStudent:'Add student',addGroup:'Add group',addCourse:'Add course',addUser:'Add user',addPayment:'Add payment',
+   topic:'Current topic',schedule:'Schedule',level:'Level',price:'Price',status:'Status',course:'Course',group:'Group',teacher:'Teacher',amount:'Amount',date:'Date',
+   welcome:'Welcome',noData:'No data yet',totalStudents:'Total students',revenue:'Revenue',collected:'Collected',pending:'Pending',debt:'Debt',
+   updateTopic:'Update topic',myGroup:'My group',paymentStatus:'Payment status',roleAdmin:'Administrator',roleFinance:'Finance',roleTeacher:'Teacher',roleStudent:'Student',roleParent:'Parent',
+   loginTitle:'Sign in to your account',loginSub:'Credentials are provided by the admin',backHome:'Home',apply:'Apply',applied:'Application received! We will contact you soon.',
+   leads:'Applications',parentPhone:'Parent phone',selectPanel:'Panel (role)',balance:'Paid',fullName:'Full name',method:'Method'},
 };
+const t=k=>(DICT[DB.lang]||DICT.uz)[k]||k;
 
-/* growth + revenue data */
-const growth=[210,248,262,290,315,352,398,441,505,560,612,690];
-const revenue=[38,42,40,55,61,58,72,79,74,88,96,104];
-const months=['Yan','Fev','Mar','Apr','May','Iyun','Iyul','Avg','Sen','Okt','Noy','Dek'];
+/* ================= STORAGE ================= */
+const LS_DB='natiq_db_v2', LS_SES='natiq_ses_v2';
+let DB, SES=null;
+function seed(){
+ return {lang:'uz',
+   users:[{id:uid(),name:'Administrator',phone:'+998900000000',password:'admin123',role:'admin'}],
+   courses:[
+     {id:uid(),title:'Arab tili',level:'Beginner→Advanced',price:450000,emoji:'🕌',status:'published'},
+     {id:uid(),title:'Ingliz tili',level:'Elementary→IELTS',price:480000,emoji:'🇬🇧',status:'published'},
+     {id:uid(),title:'Matematika',level:'Milliy sertifikat',price:500000,emoji:'📐',status:'published'},
+   ],
+   groups:[], students:[], payments:[], leads:[] };
+}
+function load(){try{DB=JSON.parse(localStorage.getItem(LS_DB))||seed();}catch(e){DB=seed();}
+ if(!DB.users||!DB.users.length)DB=seed();
+ try{SES=JSON.parse(localStorage.getItem(LS_SES))||null;}catch(e){SES=null;}}
+function save(){try{localStorage.setItem(LS_DB,JSON.stringify(DB));}catch(e){}}
+function saveSes(){try{SES?localStorage.setItem(LS_SES,JSON.stringify(SES)):localStorage.removeItem(LS_SES);}catch(e){}}
+function setLang(l){DB.lang=l;save();render();}
 
-/* ============================================================ CHARTS (SVG) */
-function lineChart(data,labels,{w=560,h=190,color='var(--brand)',fill=true}={}){
-  const pad={l:34,r:12,t:14,b:26}, iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
-  const mx=Math.max(...data), mn=Math.min(...data), rng=mx-mn||1;
-  const X=i=>pad.l+iw*i/(data.length-1);
-  const Y=v=>pad.t+ih-((v-mn)/rng)*ih;
-  const pts=data.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');
-  const area=`${pad.l},${pad.t+ih} ${pts} ${pad.l+iw},${pad.t+ih}`;
-  let grid='';for(let g=0;g<=3;g++){const yy=pad.t+ih*g/3;grid+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>`;
-    grid+=`<text x="${pad.l-6}" y="${yy+3}" text-anchor="end" font-size="9" fill="var(--ink-3)" font-family="var(--fm)">${Math.round(mx-(rng)*g/3)}</text>`;}
-  let lab='';labels.forEach((l,i)=>{if(i%2===0||i===labels.length-1)lab+=`<text x="${X(i)}" y="${h-8}" text-anchor="middle" font-size="9" fill="var(--ink-3)">${l}</text>`;});
-  const last=data.length-1;
-  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img">${grid}
-    ${fill?`<polygon points="${area}" fill="${color}" opacity=".1"/>`:''}
-    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${X(last)}" cy="${Y(data[last])}" r="4.5" fill="${color}"/>
-    <circle cx="${X(last)}" cy="${Y(data[last])}" r="8" fill="${color}" opacity=".2"/>
-    ${lab}</svg>`;
-}
-function barChart(data,labels,{w=560,h=190,color='var(--gold)'}={}){
-  const pad={l:34,r:12,t:14,b:26}, iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
-  const mx=Math.max(...data), bw=iw/data.length*.6, gap=iw/data.length;
-  let grid='';for(let g=0;g<=3;g++){const yy=pad.t+ih*g/3;grid+=`<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="var(--line)"/>
-    <text x="${pad.l-6}" y="${yy+3}" text-anchor="end" font-size="9" fill="var(--ink-3)" font-family="var(--fm)">${Math.round(mx-mx*g/3)}</text>`;}
-  let bars='';data.forEach((v,i)=>{const bh=(v/mx)*ih,x=pad.l+gap*i+(gap-bw)/2,y=pad.t+ih-bh;
-    bars+=`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${color}"/>`;
-    if(i%2===0||i===data.length-1)bars+=`<text x="${x+bw/2}" y="${h-8}" text-anchor="middle" font-size="9" fill="var(--ink-3)">${labels[i]}</text>`;});
-  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img">${grid}${bars}</svg>`;
-}
-function donut(segs,{size=150,center='',label='davomat'}={}){
-  const cx=size/2,cy=size/2,r=size/2-14,C=2*Math.PI*r;let off=0,seg='';
-  const tot=segs.reduce((a,s)=>a+s.v,0);
-  segs.forEach(s=>{const len=C*s.v/tot;seg+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}" stroke-width="16" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt"/>`;off+=len;});
-  return `<svg class="chart" viewBox="0 0 ${size} ${size}" style="max-width:${size}px">${seg}
-    <text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="24" font-family="var(--fd)" font-weight="700" fill="var(--ink)">${center||tot+'%'}</text>
-    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" fill="var(--ink-3)">${label}</text></svg>`;
-}
+/* ================= helpers ================= */
+function kpi(lab,val,icn,col,sub){return `<div class="kpi"><div class="lab"><span class="ic" style="background:${col}22;color:${col}">${ic(icn)}</span>${lab}</div><div class="val num">${val}</div><div class="trend" style="color:var(--ink-3)">${sub||'—'}</div></div>`;}
+function es(icon,title,sub,cta){return `<div class="empty"><div class="e-ic">${icon}</div><b>${title}</b>${sub||''}${cta?'<div style="margin-top:15px;display:flex;justify-content:center">'+cta+'</div>':''}</div>`;}
+function langSw(){return `<div class="langsw">${['uz','ru','en'].map(l=>`<button class="${DB.lang===l?'on':''}" onclick="setLang('${l}')">${l.toUpperCase()}</button>`).join('')}</div>`;}
+function courseName(id){const c=DB.courses.find(x=>x.id===id);return c?c.title:'—';}
+function groupName(id){const g=DB.groups.find(x=>x.id===id);return g?g.code+' · '+g.name:'—';}
+function teacherName(id){const u=DB.users.find(x=>x.id===id);return u?u.name:'—';}
+function teacherOptions(sel){return DB.users.filter(u=>u.role==='teacher').map(u=>`<option value="${u.id}" ${u.id===sel?'selected':''}>${u.name}</option>`).join('')||'<option value="">— (avval oʻqituvchi qoʻshing)</option>';}
+function courseOptions(sel){return DB.courses.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${c.title}</option>`).join('')||'<option value="">—</option>';}
+function groupOptions(sel){return DB.groups.map(g=>`<option value="${g.id}" ${g.id===sel?'selected':''}>${g.code} · ${g.name}</option>`).join('')||'<option value="">—</option>';}
+function studentOptions(sel){return DB.students.map(s=>`<option value="${s.id}" ${s.id===sel?'selected':''}>${s.name}</option>`).join('')||'<option value="">—</option>';}
 
-/* ============================================================ COMPONENT HELPERS */
-const payBadge=p=>({paid:['b-ok','Toʻlangan'],pending:['b-warn','Kutilmoqda'],overdue:['b-bad','Muddati oʻtgan'],partial:['b-gold','Qisman']})[p];
-const hwBadge=s=>({pending:['b-warn','Kutilmoqda'],submitted:['b-brand','Topshirilgan'],graded:['b-ok','Baholangan'],revision:['b-bad','Qayta ishlash']})[s];
-function kpi(lab,val,trend,up,icn,col){
-  return `<div class="kpi"><div class="lab"><span class="ic" style="background:${col}22;color:${col}">${ic(icn)}</span>${lab}</div>
-    <div class="val num">${val}</div><div class="trend ${up?'up':'down'}">${up?'▲':'▼'} ${trend}</div></div>`;
+/* ================= MODAL ================= */
+function openModal(title,body,submitFn,submitLabel){
+ document.getElementById('modal-root').innerHTML=`<div class="modal-ov" onclick="if(event.target===this)closeModal()">
+   <div class="modal"><div class="mh"><h3>${title}</h3><button class="x" onclick="closeModal()">×</button></div>
+   <div class="mb"><div class="frm-grid">${body}</div></div>
+   <div class="mf"><button class="btn ghost" onclick="closeModal()">${t('cancel')}</button><button class="btn" onclick="${submitFn}">${ic('check')} ${submitLabel||t('save')}</button></div></div></div>`;
 }
+function closeModal(){document.getElementById('modal-root').innerHTML='';}
+function fld(id,label,opts={}){const{type='text',ph='',val='',full=false,sel=''}=opts;
+ const cls=full?'field full':'field';
+ if(type==='select')return `<div class="${cls}"><label>${label}</label><select id="${id}">${opts.options||''}</select></div>`;
+ if(type==='textarea')return `<div class="${cls}"><label>${label}</label><textarea id="${id}" rows="3" placeholder="${ph}">${val}</textarea></div>`;
+ return `<div class="${cls}"><label>${label}</label><input id="${id}" type="${type}" placeholder="${ph}" value="${val}"></div>`;}
+const V=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
 
-/* ============================================================ APP SHELL */
-const NAVS={
-  student:{title:'Talaba',user:['Amina Yusupova','Talaba'],items:[
-    ['dash','Boshqaruv paneli','home'],['courses','Mening kurslarim','book'],['hw','Uy vazifalari','task','2'],['att','Davomat','check']]},
-  teacher:{title:'Oʻqituvchi',user:['Ustoz Karimov','Oʻqituvchi'],items:[
-    ['dash','Boshqaruv paneli','home'],['review','Vazifa tekshiruvi','task','4'],['att','Davomat','check'],['groups','Guruhlarim','users']]},
-  admin:{title:'Boshqaruv',user:['Sarvar Aliyev','Administrator'],items:[
-    ['dash','KPI paneli','grid'],['students','Talabalar','users'],['courses','Kurslar','book'],['analytics','Analitika','chart'],['pay','Toʻlovlar','cash']]},
-  parent:{title:'Ota-ona',user:['Zebo Yusupova','Ota-ona'],items:[
-    ['dash','Boshqaruv paneli','home']]},
-  design:{title:'Dizayn tizimi',user:['Natiq','Design System'],items:[
-    ['dash','Komponentlar','layers']]},
+/* ================= FORMS (real anketa) ================= */
+function formStudent(){openModal(t('addStudent'),
+ fld('st-name',t('fullName'),{ph:'Aziza Karimova',full:true})+
+ fld('st-phone',t('phone'),{ph:'+998 90 123 45 67'})+
+ fld('st-parent',t('parentPhone'),{ph:'+998 ...'})+
+ fld('st-course',t('course'),{type:'select',options:courseOptions()})+
+ fld('st-group',t('group'),{type:'select',options:'<option value="">—</option>'+groupOptions()})+
+ fld('st-price',t('price')+' (soʻm)',{type:'number',ph:'450000'})+
+ fld('st-paid',t('balance')+' (soʻm)',{type:'number',ph:'0'}),
+ 'saveStudent()',t('add'));}
+function saveStudent(){const name=V('st-name');if(!name){toast('Ismni kiriting');return;}
+ DB.students.push({id:uid(),name,phone:V('st-phone'),parentPhone:V('st-parent'),courseId:V('st-course'),groupId:V('st-group'),coursePrice:+V('st-price')||0,paid:+V('st-paid')||0,status:'active'});
+ save();closeModal();render();toast('Talaba qoʻshildi ✓');}
+
+function formGroup(){openModal(t('addGroup'),
+ fld('g-code','Kod',{ph:'AR-B1'})+
+ fld('g-name','Nomi',{ph:'Arab tili Beginner'})+
+ fld('g-course',t('course'),{type:'select',options:courseOptions()})+
+ fld('g-teacher',t('teacher'),{type:'select',options:teacherOptions()})+
+ fld('g-sch',t('schedule'),{ph:'Du/Cho/Ju 17:00'})+
+ fld('g-topic',t('topic'),{ph:'1-dars: Alifbo',full:true}),
+ 'saveGroup()',t('add'));}
+function saveGroup(){const code=V('g-code');if(!code){toast('Kodni kiriting');return;}
+ DB.groups.push({id:uid(),code,name:V('g-name'),courseId:V('g-course'),teacherId:V('g-teacher'),schedule:V('g-sch'),topic:V('g-topic')});
+ save();closeModal();render();toast('Guruh qoʻshildi ✓');}
+
+function formCourse(){openModal(t('addCourse'),
+ fld('c-title','Nomi',{ph:'Arab tili',full:true})+
+ fld('c-level',t('level'),{ph:'Beginner'})+
+ fld('c-price',t('price')+' (soʻm)',{type:'number',ph:'450000'})+
+ fld('c-emoji','Emoji',{ph:'🕌'})+
+ fld('c-status',t('status'),{type:'select',options:'<option value="published">Nashr etilgan</option><option value="draft">Qoralama</option>'}),
+ 'saveCourse()',t('add'));}
+function saveCourse(){const title=V('c-title');if(!title){toast('Nomni kiriting');return;}
+ DB.courses.push({id:uid(),title,level:V('c-level'),price:+V('c-price')||0,emoji:V('c-emoji')||'📘',status:V('c-status')});
+ save();closeModal();render();toast('Kurs qoʻshildi ✓');}
+
+function formUser(){openModal(t('addUser'),
+ fld('u-name',t('fullName'),{ph:'Ism Familiya',full:true})+
+ fld('u-phone',t('phone'),{ph:'+998 90 123 45 67'})+
+ fld('u-pass',t('password'),{ph:'kamida 6 belgi'})+
+ fld('u-role',t('selectPanel'),{type:'select',options:`<option value="student">${t('roleStudent')}</option><option value="teacher">${t('roleTeacher')}</option><option value="finance">${t('roleFinance')}</option><option value="parent">${t('roleParent')}</option><option value="admin">${t('roleAdmin')}</option>`,full:true}),
+ 'saveUser()',t('add'));}
+function saveUser(){const name=V('u-name'),phone=V('u-phone'),pass=V('u-pass');
+ if(!name||!phone||pass.length<6){toast('Ism, telefon va kamida 6 belgili parol kiriting');return;}
+ if(DB.users.some(u=>u.phone===phone)){toast('Bu telefon allaqachon mavjud');return;}
+ DB.users.push({id:uid(),name,phone,password:pass,role:V('u-role')});
+ save();closeModal();render();toast('Foydalanuvchi yaratildi ✓ — u shu telefon/parol bilan kiradi');}
+
+function formPayment(){if(!DB.students.length){toast('Avval talaba qoʻshing');return;}
+ openModal(t('addPayment'),
+ fld('p-student',t('students'),{type:'select',options:studentOptions(),full:true})+
+ fld('p-amount',t('amount')+' (soʻm)',{type:'number',ph:'450000'})+
+ fld('p-date',t('date'),{type:'date',val:new Date().toISOString().slice(0,10)})+
+ fld('p-method',t('method'),{type:'select',options:'<option>Naqd</option><option>Click</option><option>Payme</option><option>Uzum</option>',full:true}),
+ 'savePayment()',t('add'));}
+function savePayment(){const sid=V('p-student');if(!sid){toast('Talabani tanlang');return;}
+ const amt=+V('p-amount')||0;
+ DB.payments.push({id:uid(),studentId:sid,amount:amt,date:V('p-date'),method:V('p-method'),status:'paid'});
+ const st=DB.students.find(s=>s.id===sid);if(st)st.paid=(st.paid||0)+amt;
+ save();closeModal();render();toast('Toʻlov qoʻshildi ✓');}
+
+function editTopic(gid){const g=DB.groups.find(x=>x.id===gid);if(!g)return;
+ openModal(t('updateTopic')+' · '+g.code,fld('et-topic',t('topic'),{val:g.topic||'',ph:'Masalan: 5-dars — Grammatika',full:true,type:'textarea'}),'saveTopic("'+gid+'")',t('save'));}
+function saveTopic(gid){const g=DB.groups.find(x=>x.id===gid);if(g){g.topic=V('et-topic');save();}closeModal();render();toast('Mavzu yangilandi ✓');}
+
+function delItem(kind,id){if(!confirm('Oʻchirilsinmi?'))return;DB[kind]=DB[kind].filter(x=>x.id!==id);save();render();toast('Oʻchirildi');}
+
+/* ================= PUBLIC SITE ================= */
+function publicSite(){
+ return `<div class="site">
+  <nav class="snav"><div class="in">
+    <div style="display:flex;align-items:center;gap:10px">${GLYPH}<b style="font-family:var(--fd);font-size:15px">Natiq Academy</b></div>
+    <div class="links"><a onclick="jump('about')">${t('about')}</a><a onclick="jump('courses')">${t('courses')}</a><a onclick="jump('enroll')">${t('enroll')}</a></div>
+    <div class="r">${langSw()}<button class="btn" onclick="goLogin()">${ic('logout')} ${t('login')}</button></div>
+  </div></nav>
+  <div class="sect"><div class="hero">
+    <div><div class="eyebrow">Natiq Academy</div><h1>${t('tagline')}</h1><p>${t('heroSub')}</p>
+      <div class="cta"><button class="btn" onclick="jump('courses')">${ic('book')} ${t('viewCourses')}</button>
+        <button class="btn ghost" onclick="jump('enroll')">${t('freeLesson')}</button></div></div>
+    <div class="hero-card">
+      <div style="font-size:12px;color:var(--brand);font-weight:600;letter-spacing:.1em">NATIQ ACADEMY</div>
+      <h3 style="font-size:19px;margin:8px 0 4px">${t('ourcourses')}</h3>
+      <div class="statbar"><div><b class="num">${DB.courses.length}</b><span>${t('courses')}</span></div><div><b class="num">${DB.groups.length}</b><span>${t('groups')}</span></div><div><b class="num">${DB.students.length}</b><span>${t('students')}</span></div></div>
+      <button class="btn full" style="margin-top:14px" onclick="jump('enroll')">${ic('send')} ${t('freeLesson')}</button>
+    </div>
+  </div></div>
+  <div class="sect block" id="about"><h2>${t('whyus')}</h2><p class="lead">Zamonaviy platforma va tajribali ustozlar bir joyda.</p>
+    <div class="grid g3">
+      <div class="feat"><span class="fi">${ic('book2')}</span><div><b>Tuzilgan dastur</b><p>Kurs → guruh → dars → mavzu. Har qadam izchil.</p></div></div>
+      <div class="feat"><span class="fi">${ic('users')}</span><div><b>Tajribali ustozlar</b><p>Har guruhga individual eʼtibor.</p></div></div>
+      <div class="feat"><span class="fi">${ic('check')}</span><div><b>Shaffof nazorat</b><p>Davomat, mavzu va toʻlov — hammasi koʻrinadi.</p></div></div>
+    </div></div>
+  <div class="sect block" id="courses"><h2>${t('ourcourses')}</h2><p class="lead">Har bir kurs guruhlarga boʻlingan.</p>
+    <div class="grid g3">${DB.courses.map(c=>`<div class="ccard"><div class="top" style="background:var(--brand-soft)">${c.emoji||'📘'}</div>
+      <div class="bd"><h4>${c.title}</h4><div style="font-size:12.5px;color:var(--ink-3)">${c.level||''}</div>
+        <div class="meta"><span class="mono">${fmt(c.price)} soʻm</span></div>
+        <button class="btn ghost full sm" onclick="jump('enroll')">${t('enroll')}</button></div></div>`).join('')}</div></div>
+  <div class="sect" id="enroll"><div class="ctaband"><h2>${t('freeLesson')}</h2><p>Bir daqiqada ariza qoldiring — tez orada bogʻlanamiz.</p>
+    <div style="max-width:420px;margin:0 auto;display:flex;flex-direction:column;gap:10px;text-align:left">
+      <input id="ap-name" placeholder="${t('fullName')}" style="padding:12px 14px;border:none;border-radius:10px;font-family:var(--fb);font-size:14px">
+      <input id="ap-phone" placeholder="${t('phone')}" style="padding:12px 14px;border:none;border-radius:10px;font-family:var(--fb);font-size:14px">
+      <select id="ap-course" style="padding:12px 14px;border:none;border-radius:10px;font-family:var(--fb);font-size:14px">${DB.courses.map(c=>`<option>${c.title}</option>`).join('')}</select>
+      <button class="btn gold" onclick="submitLead()">${ic('send')} ${t('apply')}</button>
+    </div></div></div>
+  <div class="sfoot">© 2026 Natiq Academy · ${t('tagline')}</div>
+ </div>`;
+}
+function jump(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth'});}
+function submitLead(){const name=(document.getElementById('ap-name')||{}).value||'';const phone=(document.getElementById('ap-phone')||{}).value||'';
+ if(!name.trim()||!phone.trim()){toast('Ism va telefonni kiriting');return;}
+ DB.leads.push({id:uid(),name,phone,course:(document.getElementById('ap-course')||{}).value||'',date:new Date().toISOString().slice(0,10)});save();
+ toast(t('applied'));document.getElementById('ap-name').value='';document.getElementById('ap-phone').value='';}
+
+/* ================= LOGIN ================= */
+function loginView(){
+ return `<div class="auth">
+   <div class="auth-brand"><div class="logo">${GLYPH}<b>Natiq Academy</b></div>
+     <div><h1>${t('tagline')}</h1><div class="sub">${t('heroSub')}</div></div>
+     <div class="auth-feat"><div><span class="fi">${ic('book')}</span> ${t('courses')}, ${t('groups')}, ${t('topic')}</div>
+       <div><span class="fi">${ic('cash')}</span> ${t('finance')} · ${t('payments')}</div>
+       <div><span class="fi">${ic('globe')}</span> UZ · RU · EN</div></div></div>
+   <div class="auth-form"><div class="auth-card">
+     <div class="mlogo">${GLYPH}<b>Natiq Academy</b></div>
+     <a class="back" onclick="goPublic()">← ${t('backHome')}</a>
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h2>${t('welcome')}</h2>${langSw()}</div>
+     <div class="muted">${t('loginTitle')} — ${t('loginSub')}</div>
+     <div class="field"><label>${t('phone')}</label><div class="inp">${ic('phone')}<input id="lg-phone" placeholder="+998 90 123 45 67"></div></div>
+     <div class="field"><label>${t('password')}</label><div class="inp">${ic('lock')}<input id="lg-pass" type="password" placeholder="••••••••"></div></div>
+     <button class="btn full" onclick="doLogin()">${ic('logout')} ${t('login')}</button>
+     <div class="auth-hint">Admin demo: <b>+998900000000</b> / <b>admin123</b></div>
+   </div></div>
+ </div>`;
+}
+function doLogin(){const p=V('lg-phone'),pw=V('lg-pass');
+ const norm=s=>s.replace(/\s/g,'');
+ const u=DB.users.find(x=>norm(x.phone)===norm(p)&&x.password===pw);
+ if(!u){toast('Telefon yoki parol notoʻgʻri');return;}
+ SES={userId:u.id,role:u.role};saveSes();render();window.scrollTo(0,0);toast(t('welcome')+', '+u.name);}
+function logout(){SES=null;saveSes();render();window.scrollTo(0,0);}
+function goLogin(){STATE.screen='login';render();window.scrollTo(0,0);}
+function goPublic(){STATE.screen='public';render();window.scrollTo(0,0);}
+
+/* ================= APP SHELL ================= */
+const ROLE_NAV={
+ admin:[['dash',()=>t('dashboard'),'grid'],['students',()=>t('students'),'users'],['groups',()=>t('groups'),'layers'],['courses',()=>t('courses'),'book'],['finance',()=>t('finance'),'cash'],['usersv',()=>t('users'),'user']],
+ finance:[['finance',()=>t('finance'),'cash']],
+ teacher:[['tgroups',()=>t('myGroups'),'layers'],['tstudents',()=>t('students'),'users']],
+ student:[['sdash',()=>t('dashboard'),'home']],
+ parent:[['pdash',()=>t('dashboard'),'home']],
 };
-const MOBNAV={student:[['dash','Bosh','home'],['courses','Kurslar','book'],['att','Jadval','cal'],['hw','Vazifa','task'],['prof','Profil','user']]};
-
-let STATE={persona:'site',view:'dash'};
-
-function shell(persona,inner,pageTitle,pageSub){
-  const nav=NAVS[persona];
-  const navHtml=nav.items.map(([v,t,icn,cnt])=>`<button class="navitem ${STATE.view===v?'on':''}" onclick="go('${persona}','${v}')">${ic(icn)}<span>${t}</span>${cnt?`<span class="cnt">${cnt}</span>`:''}</button>`).join('');
-  const [un,ur]=nav.user;
-  let mob='';
-  if(MOBNAV[persona]){mob=`<div class="mobnav">${MOBNAV[persona].map(([v,t,icn])=>`<button class="${STATE.view===v?'on':''}" onclick="go('${persona}','${v==='prof'?'dash':v}')">${ic(icn)}<span>${t}</span></button>`).join('')}</div>`;}
-  return `<div class="app">
-    <div class="sidebar">
-      <div class="brand">${GLYPH}<div><b>Natiq</b><small>Academy</small></div></div>
-      <div class="navlabel">${nav.title} menyusi</div>
-      ${navHtml}
-      <div class="side-foot">
-        <div class="userbox"><span class="avatar" style="background:${avc(un)}">${ini(un)}</span>
-          <div style="flex:1"><b>${un}</b><span>${ur}</span></div>${ic('logout')}</div>
-      </div>
-    </div>
-    <div class="main">
-      <div class="topbar">
-        <div><h1>${pageTitle}</h1><div class="sub">${pageSub||''}</div></div>
-        <div class="search">${ic('search')}<input placeholder="Qidirish…" aria-label="Qidirish"></div>
-        <button class="iconbtn" onclick="toast('3 ta oʻqilmagan bildirishnoma')" aria-label="Bildirishnomalar">${ic('bell')}<span class="dot"></span></button>
-        <button class="iconbtn" onclick="toggleTheme()" aria-label="Mavzu">${ic('star')}</button>
-      </div>
-      <div class="content">${inner}</div>
-    </div>
-    ${mob}
-  </div>`;
+function currentUser(){return DB.users.find(u=>u.id===SES.userId);}
+function shell(inner,title,sub){
+ const u=currentUser();const nav=ROLE_NAV[SES.role]||[];
+ const navHtml=nav.map(([v,lab,icn])=>`<button class="navitem ${STATE.view===v?'on':''}" onclick="setView('${v}')">${ic(icn)}<span>${lab()}</span></button>`).join('');
+ return `<div class="app">
+   <div class="sidebar">
+     <div class="brand">${GLYPH}<div><b>Natiq</b><small>Academy</small></div></div>
+     <div class="navlabel">${t('role')}: ${t('role'+SES.role.charAt(0).toUpperCase()+SES.role.slice(1))}</div>
+     ${navHtml}
+     <div class="side-foot"><div class="userbox"><span class="avatar" style="background:${avc(u.name)}">${ini(u.name)}</span>
+       <div style="flex:1"><b>${u.name}</b><span>${u.phone}</span></div>
+       <button onclick="logout()" style="border:none;background:transparent;color:var(--ink-3);cursor:pointer" title="${t('logout')}">${ic('logout')}</button></div></div>
+   </div>
+   <div class="main">
+     <div class="topbar"><div><h1>${title}</h1><div class="sub">${sub||''}</div></div>
+       <div style="margin-left:auto;display:flex;gap:10px;align-items:center">${langSw()}
+       <button class="iconbtn" onclick="toggleTheme()">${ic('star')}</button></div></div>
+     <div class="content">${inner}</div>
+   </div>
+ </div>`;
 }
 
-/* ============================================================ VIEWS: STUDENT */
-function studentDash(){
-  const c=DB.courses;
-  return `<p class="pageintro">Assalomu alaykum, <b>Amina</b> 👋 Bugun oʻrganishni davom ettiramizmi?</p>
-  <div class="grid g4" style="margin-bottom:18px">
-    ${kpi('Faol kurslar','3','yangi Tajvid',true,'book','#0E6F63')}
-    ${kpi('Umumiy oʻzlashtirish','67%','+8% shu hafta',true,'chart','#0B5A9C')}
-    ${kpi('Streak','7 kun','🔥 rekord',true,'fire','#B5842A')}
-    ${kpi('XP ballari','1 240','+120 bugun',true,'star','#6B4FA0')}
-  </div>
-  <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:16px">
-    <div style="display:flex;flex-direction:column;gap:16px">
-      <div class="card" style="background:linear-gradient(150deg,var(--brand),var(--brand-ink));color:#fff;border:none">
-        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;opacity:.85"><span style="width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block"></span>BUGUNGI DARS · 19:00</div>
-        <h2 style="color:#fff;font-size:22px;margin:10px 0 4px">Arab tili — Beginner</h2>
-        <div style="opacity:.85;font-size:13.5px">14-dars · Harakat belgilari (harakat) · Ustoz Karimov</div>
-        <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-          <button class="btn gold" onclick="toast('Jonli darsga ulanmoqda…')">${ic('play')} Darsga qoʻshilish</button>
-          <button class="btn ghost" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.25)" onclick="go('student','courses')">Kursni davom ettirish</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><h3>Faol kurslar</h3><button class="btn ghost sm" onclick="go('student','courses')">Barchasi</button></div>
-        ${c.map(x=>`<div class="lrow">
-          <span class="thumb" style="background:${x.bg}">${x.em}</span>
-          <div class="gr"><b>${x.t}</b><span>${x.done}/${x.total} dars · ${x.teacher}</span>
-            <div class="pbar" style="margin-top:7px"><i style="width:${x.pct}%;background:${x.c}"></i></div></div>
-          <div style="text-align:right"><b class="num" style="font-family:var(--fd);font-size:16px">${x.pct}%</b></div>
-        </div>`).join('')}
-      </div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:16px">
-      <div class="card">
-        <div class="ch"><h3>Uy vazifalari</h3><span class="badge b-warn">2 ta faol</span></div>
-        ${DB.homework.slice(0,3).map(h=>{const[b,l]=hwBadge(h.st);return`<div class="lrow"><span class="thumb" style="background:var(--surface-2)">${ic('task')}</span>
-          <div class="gr"><b style="font-size:13px">${h.t}</b><span>${h.course} · ${h.due}</span></div>
-          <span class="badge ${b}">${h.score||l}</span></div>`;}).join('')}
-        <button class="btn ghost full sm" style="margin-top:12px" onclick="go('student','hw')">Barcha vazifalar</button>
-      </div>
-      <div class="card">
-        <div class="ch"><h3>Yutuqlar</h3><span class="badge b-gold">4 / 6</span></div>
-        <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:6px">
-          ${DB.ach.map(a=>`<div class="ach ${a.lit?'lit':'off'}"><span class="em">${a.em}</span><small>${a.lit?'<b>'+a.t+'</b>':a.t}</small></div>`).join('')}
-        </div>
-      </div>
-      <div class="card">
-        <div class="ch"><h3>Toʻlov holati</h3><span class="badge b-gold">Qisman</span></div>
-        <div style="font-size:13px;color:var(--ink-2);display:grid;grid-template-columns:1fr auto;gap:5px 10px">
-          <span>Kurs narxi</span><b class="num">${DB.payStatus.course} soʻm</b>
-          <span>Toʻlangan</span><b class="num" style="color:var(--ok)">${DB.payStatus.paid} soʻm</b>
-          <span>Qoldi</span><b class="num" style="color:var(--bad)">${DB.payStatus.left} soʻm</b>
-          <span>Keyingi toʻlov</span><b>${DB.payStatus.next}</b></div>
-        <button class="btn full sm" style="margin-top:12px" onclick="toast('Toʻlov sahifasi (Click / Payme / Uzum)')">${ic('cash')} Toʻlash</button>
-      </div>
-    </div>
-  </div>`;
-}
-function studentCourses(){
-  return `<p class="pageintro">Toʻxtagan joyingizdan davom eting — har bir kursning oxirgi darsi saqlangan.</p>
-  <div class="grid g3">${DB.courses.map(x=>`<div class="card pad0" style="overflow:hidden">
-    <div style="height:80px;background:${x.bg};display:grid;place-items:center;font-size:34px">${x.em}</div>
-    <div style="padding:16px 18px">
-      <div style="display:flex;justify-content:space-between;align-items:start;gap:8px"><h3 style="font-size:16px">${x.t}</h3></div>
-      <div style="font-size:12.5px;color:var(--ink-3);margin:4px 0 12px">${x.teacher} · Keyingi: ${x.next}</div>
-      <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><span>${x.done}/${x.total} dars</span><b class="num">${x.pct}%</b></div>
-      <div class="pbar"><i style="width:${x.pct}%;background:${x.c}"></i></div>
-      <button class="btn full sm" style="margin-top:14px;background:${x.c}" onclick="toast('Dars pleeri ochilmoqda…')">${ic('play')} Davom ettirish</button>
-    </div></div>`).join('')}</div>`;
-}
-function studentHw(){
-  return `<p class="pageintro">Barcha uy vazifalari va ularning holati bir joyda.</p>
-  <div class="filters"><span class="fchip on">Barchasi</span><span class="fchip">Faol</span><span class="fchip">Baholangan</span><span class="fchip">Qayta ishlash</span></div>
-  <div class="tw"><table><thead><tr><th>Vazifa</th><th>Kurs</th><th>Muddat</th><th>Holat</th><th>Baho</th><th></th></tr></thead><tbody>
-  ${DB.homework.map(h=>{const[b,l]=hwBadge(h.st);return`<tr><td style="white-space:normal;font-weight:600;max-width:240px">${h.t}</td>
-    <td>${h.course}</td><td>${h.due}</td><td><span class="badge ${b}">${l}</span></td>
-    <td class="num">${h.score||'—'}</td>
-    <td><button class="btn ghost sm" onclick="toast('Vazifa ochildi')">${h.st==='revision'?'Qayta yuborish':'Koʻrish'}</button></td></tr>`;}).join('')}
-  </tbody></table></div>`;
-}
-function studentAtt(){
-  const days=[['Du','present'],['Se','present'],['Cho','late'],['Pa','present'],['Ju','present'],['Sha','absent'],['Ya','excused'],['Du','present'],['Se','present'],['Cho','present']];
-  const map={present:['var(--ok)','Kelgan'],late:['var(--warn)','Kech'],absent:['var(--bad)','Kelmagan'],excused:['var(--brand)','Sababli']};
-  return `<p class="pageintro">Davomat foizingiz — muntazam qatnashish streak va yutuqlarga taʼsir qiladi.</p>
-  <div class="grid g4" style="margin-bottom:18px">
-    ${kpi('Umumiy davomat','92%','+2% oy',true,'check','#2E8B62')}
-    ${kpi('Kelgan','44','shu oy',true,'user','#0E6F63')}
-    ${kpi('Kechikkan','3','shu oy',false,'clock','#B7791F')}
-    ${kpi('Sababli','1','shu oy',true,'cal','#0B5A9C')}
-  </div>
-  <div class="card"><div class="ch"><h3>Oxirgi 10 dars</h3><div class="legend" style="margin-left:auto">
-    ${Object.entries(map).map(([k,[c,l]])=>`<span><i style="background:${c}"></i>${l}</span>`).join('')}</div></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">${days.map(([d,s])=>{const[c,l]=map[s];return`<div style="text-align:center"><div title="${l}" style="width:44px;height:44px;border-radius:11px;background:${c}22;color:${c};display:grid;place-items:center;font-weight:700">${l[0]}</div><small style="font-size:11px;color:var(--ink-3)">${d}</small></div>`;}).join('')}</div>
-  </div>`;
-}
-
-/* ============================================================ VIEWS: TEACHER */
-function teacherDash(){
-  return `<p class="pageintro">Assalomu alaykum, <b>Ustoz Karimov</b>. Bugun 3 ta darsingiz va 4 ta tekshiriladigan vazifa bor.</p>
-  <div class="grid g4" style="margin-bottom:18px">
-    ${kpi('Bugungi darslar','3','17:00 birinchi',true,'cal','#0E6F63')}
-    ${kpi('Faol talabalar','35','2 guruh',true,'users','#0B5A9C')}
-    ${kpi('Tekshirish kutmoqda','4','vazifa',false,'task','#B7791F')}
-    ${kpi('Oʻrtacha oʻzlashtirish','78%','+5% oy',true,'chart','#2E8B62')}
-  </div>
-  <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px">
-    <div class="card"><div class="ch"><h3>Bugungi darslar</h3><span class="badge b-brand">3 ta</span></div>
-      ${DB.todayLessons.map(l=>`<div class="lrow"><div class="thumb mono" style="background:var(--brand-soft);color:var(--brand-ink);font-size:13px;font-weight:700">${l.time}</div>
-        <div class="gr"><b>${l.t}</b><span>${l.grp} · ${l.n} talaba · ${l.dur}</span></div>
-        <button class="btn sm" onclick="toast('Dars boshlandi')">${ic('play')} Boshlash</button></div>`).join('')}
-    </div>
-    <div class="card"><div class="ch"><h3>Tekshirish navbati</h3><button class="btn ghost sm" onclick="go('teacher','review')">Barchasi</button></div>
-      ${DB.reviewQueue.map(r=>`<div class="lrow"><span class="mini-av" style="background:${avc(r.s)}">${ini(r.s)}</span>
-        <div class="gr"><b style="font-size:13px">${r.s}</b><span>${r.t} · ${r.files}</span></div>
-        <span style="font-size:11.5px;color:var(--ink-3)">${r.when}</span></div>`).join('')}
-    </div>
-  </div>`;
-}
-function teacherReview(){
-  return `<p class="pageintro">Talabalar topshirgan vazifalarni baholang, izoh yozing yoki qayta ishlashga qaytaring.</p>
-  <div class="grid g2">
-    <div class="card">
-      <div class="ch"><span class="mini-av" style="background:${avc('Amina Yusupova')}">AY</span><div><h3 style="font-size:15px">Amina Yusupova</h3><div class="sub">Arab alifbosi — yozuv mashqi · Arab tili</div></div><span class="badge b-brand" style="margin-left:auto">Yangi</span></div>
-      <div style="border:1px dashed var(--line-2);border-radius:11px;padding:22px;text-align:center;color:var(--ink-3);background:var(--surface-2)">
-        <div style="font-size:26px;margin-bottom:4px">🖼️</div>2 ta rasm biriktirilgan<br><small>alifbo-1.jpg · alifbo-2.jpg</small></div>
-      <h4>Baho</h4>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">${[10,9,8,7,6].map((n,i)=>`<button class="fchip ${i===1?'on':''}">${n}/10</button>`).join('')}</div>
-      <h4>Izoh (feedback)</h4>
-      <textarea style="width:100%;min-height:70px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:var(--fb);font-size:13.5px;background:var(--surface);color:var(--ink);resize:vertical" placeholder="Talabaga izoh yozing…">Yozuvingiz chiroyli, harakatlarga eʼtibor bering.</textarea>
-      <div style="display:flex;gap:9px;margin-top:12px"><button class="btn" onclick="toast('Baho va izoh saqlandi ✓')">${ic('check')} Tasdiqlash</button>
-        <button class="btn ghost" onclick="toast('Qayta ishlashga qaytarildi')">Qayta ishlash</button></div>
-    </div>
-    <div class="card"><div class="ch"><h3>Navbatdagilar</h3><span class="badge b-warn">3 ta qoldi</span></div>
-      ${DB.reviewQueue.slice(1).map(r=>`<div class="lrow"><span class="mini-av" style="background:${avc(r.s)}">${ini(r.s)}</span>
-        <div class="gr"><b style="font-size:13px">${r.s}</b><span>${r.t} · ${r.course}</span></div>
-        <button class="btn ghost sm">Ochish</button></div>`).join('')}
-      <div class="empty" style="padding:20px 10px"><small>Navbat tozalandi? Ajoyib — barcha talabalar oʻz vaqtida fikr oladi.</small></div>
-    </div>
-  </div>`;
-}
-function teacherAtt(){
-  const st=DB.students.filter(s=>s.grp==='AR-B1');
-  const opts=[['present','Keldi','var(--ok)'],['late','Kech','var(--warn)'],['absent','Yoʻq','var(--bad)'],['excused','Sababli','var(--brand)']];
-  return `<p class="pageintro">Guruh: <b>AR-B1 · Arab tili Beginner</b> · Bugun 17:00. Har talaba uchun holatni belgilang.</p>
-  <div class="card pad0"><table><thead><tr><th>Talaba</th><th>Kod</th><th style="text-align:right">Davomat holati</th></tr></thead><tbody>
-  ${DB.students.slice(0,5).map((s,idx)=>`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(s.n)}">${ini(s.n)}</span>${s.n}</div></td>
-    <td class="mono">NAT-${s.code}</td>
-    <td><div style="display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap">${opts.map(([k,l,c],i)=>`<button class="fchip ${i===(idx%4)?'on':''}" style="${i===(idx%4)?'background:'+c+';border-color:transparent':''}" onclick="pickAtt(this)">${l}</button>`).join('')}</div></td></tr>`).join('')}
-  </tbody></table></div>
-  <div style="margin-top:16px"><button class="btn" onclick="toast('Davomat saqlandi ✓ · Ota-onalarga bildirishnoma yuborildi')">${ic('check')} Davomatni saqlash</button></div>`;
-}
-function teacherGroups(){
-  const g=[['AR-B1','Arab tili Beginner',14,'Du/Cho/Ju · 17:00'],['TJ-2','Tajvid asoslari',9,'Se/Pa · 18:30'],['AR-E1','Arab tili Elementary',12,'Du/Cho · 20:00']];
-  return `<p class="pageintro">Sizga biriktirilgan guruhlar va ularning jadvali.</p>
-  <div class="grid g3">${g.map(([code,t,n,sch])=>`<div class="card"><div style="display:flex;justify-content:space-between"><span class="badge b-brand mono">${code}</span><span class="badge b-neutral">${n} talaba</span></div>
-    <h3 style="font-size:16px;margin:12px 0 4px">${t}</h3><div style="font-size:12.5px;color:var(--ink-3)">${sch}</div>
-    <div style="display:flex;gap:8px;margin-top:14px"><button class="btn ghost sm" onclick="go('teacher','att')">Davomat</button><button class="btn ghost sm" onclick="toast('Guruh ochildi')">Talabalar</button></div></div>`).join('')}</div>`;
-}
-
-/* ============================================================ VIEWS: ADMIN */
+/* ================= ADMIN VIEWS ================= */
 function adminDash(){
-  return `<p class="pageintro">Akademiyaning umumiy holati — <b>Bu oy</b> koʻrsatkichlari.</p>
-  <div class="filters"><span class="fchip">Bugun</span><span class="fchip">Bu hafta</span><span class="fchip on">Bu oy</span><span class="fchip">Bu yil</span><span class="fchip">Maxsus sana</span></div>
-  <div class="grid g4" style="margin-bottom:16px">
-    ${kpi('Jami talabalar','690','+78 shu oy',true,'users','#0E6F63')}
-    ${kpi('Faol talabalar','612','89% faollik',true,'user','#0B5A9C')}
-    ${kpi('Oylik daromad','104 mln','+8% oʻsish',true,'cash','#B5842A')}
-    ${kpi('Oʻrtacha davomat','91%','+3% oy',true,'check','#2E8B62')}
-  </div>
-  <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:16px">
-    <div class="card"><div class="ch"><h3>Talabalar oʻsishi</h3><span class="badge b-ok">+228% / yil</span></div>${lineChart(growth,months,{color:'var(--brand)'})}</div>
-    <div class="card"><div class="ch"><h3>Davomat taqsimoti</h3></div>
-      <div style="display:flex;align-items:center;gap:18px">${donut([{v:78,c:'var(--ok)'},{v:9,c:'var(--warn)'},{v:4,c:'var(--brand)'},{v:9,c:'var(--bad)'}],{center:'91%'})}
-      <div class="legend" style="flex-direction:column;gap:8px">
-        <span><i style="background:var(--ok)"></i>Kelgan · 78%</span><span><i style="background:var(--warn)"></i>Kechikkan · 9%</span>
-        <span><i style="background:var(--brand)"></i>Sababli · 4%</span><span><i style="background:var(--bad)"></i>Kelmagan · 9%</span></div></div>
-    </div>
-  </div>
-  <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:16px">
-    <div class="card"><div class="ch"><h3>Oylik daromad (mln soʻm)</h3><span class="badge b-gold">Yillik: 936 mln</span></div>${barChart(revenue,months)}</div>
-    <div class="card"><div class="ch"><h3>Kurs samaradorligi</h3></div>
-      ${[['Arab tili — Beginner',86,'#0E6F63'],['Ingliz tili — Elementary',72,'#0B5A9C'],['Tajvid asoslari',91,'#B5842A'],['Arab tili — Elementary',64,'#6B4FA0']].map(([t,p,c])=>`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${t}</span><b class="num">${p}%</b></div><div class="pbar"><i style="width:${p}%;background:${c}"></i></div></div>`).join('')}
-    </div>
-  </div>`;
+ const collected=DB.payments.reduce((a,p)=>a+(+p.amount||0),0);
+ return `<p class="pageintro">${t('welcome')}! ${DB.students.length} ${t('students').toLowerCase()}, ${DB.groups.length} ${t('groups').toLowerCase()}.</p>
+ <div class="grid g4" style="margin-bottom:16px">
+   ${kpi(t('totalStudents'),DB.students.length,'users','#0E6F63')}
+   ${kpi(t('groups'),DB.groups.length,'layers','#0B5A9C')}
+   ${kpi(t('courses'),DB.courses.length,'book','#6B4FA0')}
+   ${kpi(t('collected'),fmt(collected)+' soʻm','cash','#2E8B62')}</div>
+ <div class="grid g2">
+   <div class="card"><div class="ch"><h3>${t('groups')} — ${t('topic')}</h3><button class="btn ghost sm" onclick="setView('groups')">${t('add')}</button></div>
+     ${DB.groups.length?DB.groups.map(g=>`<div class="lrow"><span class="mini-av" style="background:${avc(g.code)}">${ic('layers')}</span>
+       <div class="gr"><b>${g.code} · ${g.name||''}</b><span>${courseName(g.courseId)} · ${teacherName(g.teacherId)}</span></div>
+       <span class="topic">${g.topic||'—'}</span></div>`).join(''):es('📚',t('noData'),'',`<button class="btn" onclick="formGroup()">${ic('plus')} ${t('addGroup')}</button>`)}</div>
+   <div class="card"><div class="ch"><h3>${t('leads')}</h3></div>
+     ${DB.leads.length?DB.leads.slice(-6).reverse().map(l=>`<div class="lrow"><span class="mini-av" style="background:${avc(l.name)}">${ini(l.name)}</span><div class="gr"><b>${l.name}</b><span>${l.phone} · ${l.course}</span></div><span style="font-size:11.5px;color:var(--ink-3)">${l.date}</span></div>`).join(''):es('📩',t('noData'),'Saytdan kelgan arizalar shu yerda koʻrinadi.')}</div>
+ </div>`;
 }
-let adminFilter='all';
 function adminStudents(){
-  const filters=[['all','Barchasi'],['paid','Toʻlagan'],['overdue','Qarzdor'],['AR-B1','AR-B1 guruh']];
-  let list=DB.students;
-  if(adminFilter==='paid')list=list.filter(s=>s.pay==='paid');
-  else if(adminFilter==='overdue')list=list.filter(s=>s.pay==='overdue');
-  else if(adminFilter==='AR-B1')list=list.filter(s=>s.grp==='AR-B1');
-  return `<p class="pageintro">Jami <b>${DB.students.length}</b> talaba (namuna). Qidiruv, filtr, saralash va sahifalash bilan.</p>
-  <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
-    <div class="search" style="margin:0"><span style="position:absolute;left:11px;color:var(--ink-3)">${ic('search')}</span><input placeholder="Ism, telefon yoki ID boʻyicha…" style="width:280px"></div>
-    <button class="btn" style="margin-left:auto" onclick="toast('Yangi talaba formasi')">${ic('plus')} Talaba qoʻshish</button></div>
-  <div class="filters">${filters.map(([k,l])=>`<button class="fchip ${adminFilter===k?'on':''}" onclick="adminFilter='${k}';render()">${l}</button>`).join('')}</div>
-  <div class="tw"><table><thead><tr><th>Talaba</th><th>ID</th><th>Kurs · Guruh</th><th>Oʻzlashtirish</th><th>Davomat</th><th>Toʻlov</th><th></th></tr></thead><tbody>
-  ${list.map(s=>{const[b,l]=payBadge(s.pay);return`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(s.n)}">${ini(s.n)}</span><div><b>${s.n}</b><div style="font-size:11.5px;color:var(--ink-3)">${s.ph}</div></div></div></td>
-    <td class="mono">${s.code}</td><td>${s.course}<br><span style="font-size:11.5px;color:var(--ink-3)" class="mono">${s.grp}</span></td>
-    <td style="min-width:120px"><div style="display:flex;align-items:center;gap:8px"><div class="pbar" style="width:70px"><i style="width:${s.pct}%"></i></div><span class="num" style="font-size:12px">${s.pct}%</span></div></td>
-    <td class="num">${s.att}%</td><td><span class="badge ${b}">${l}</span></td>
-    <td><button class="btn ghost sm" onclick="toast('${s.n} profili')">${ic('eye')}</button></td></tr>`;}).join('')}
-  </tbody></table>
-  ${list.length===0?'<div class="empty"><div class="e-ic">🔍</div><b>Natija topilmadi</b>Ushbu filtr boʻyicha talaba yoʻq.</div>':''}
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px;color:var(--ink-3)">
-    <span>${list.length} ta koʻrsatilmoqda</span>
-    <div style="display:flex;gap:5px">${['‹','1','2','3','›'].map((p,i)=>`<button class="fchip ${p==='1'?'on':''}" style="min-width:34px;text-align:center">${p}</button>`).join('')}</div></div>`;
+ return `<p class="pageintro">${t('students')} — ${DB.students.length}</p>
+ <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+   <div class="search" style="margin:0"><span style="position:absolute;left:11px;color:var(--ink-3)">${ic('search')}</span><input id="q-st" oninput="render()" placeholder="${t('search')}…" style="width:260px" value="${STATE.q||''}"></div>
+   <button class="btn" style="margin-left:auto" onclick="formStudent()">${ic('plus')} ${t('addStudent')}</button></div>
+ ${DB.students.length?`<div class="tw"><table><thead><tr><th>${t('name')}</th><th>${t('phone')}</th><th>${t('course')}</th><th>${t('group')}</th><th>${t('balance')}</th><th></th></tr></thead><tbody>
+ ${DB.students.filter(s=>!STATE.q||s.name.toLowerCase().includes(STATE.q.toLowerCase())||(s.phone||'').includes(STATE.q)).map(s=>`<tr>
+   <td><div class="tcell"><span class="mini-av" style="background:${avc(s.name)}">${ini(s.name)}</span>${s.name}</div></td>
+   <td>${s.phone||'—'}</td><td>${courseName(s.courseId)}</td><td class="mono">${s.groupId?groupName(s.groupId):'—'}</td>
+   <td class="num">${fmt(s.paid)} / ${fmt(s.coursePrice)}</td>
+   <td><button class="btn ghost sm" onclick="delItem('students','${s.id}')">${ic('trash')}</button></td></tr>`).join('')}
+ </tbody></table></div>`:es('🧑‍🎓',t('noData'),'',`<button class="btn" onclick="formStudent()">${ic('plus')} ${t('addStudent')}</button>`)}`;
+}
+function adminGroups(){
+ return `<p class="pageintro">${t('groups')} — ${DB.groups.length}. Har guruhning hozirgi mavzusini koʻring va yangilang.</p>
+ <div style="display:flex;margin-bottom:14px"><button class="btn" style="margin-left:auto" onclick="formGroup()">${ic('plus')} ${t('addGroup')}</button></div>
+ ${DB.groups.length?`<div class="grid g2">${DB.groups.map(g=>{const cnt=DB.students.filter(s=>s.groupId===g.id).length;return `<div class="card">
+   <div style="display:flex;justify-content:space-between;align-items:start"><div><span class="badge b-brand mono">${g.code}</span> <b style="font-family:var(--fd)">${g.name||''}</b>
+     <div style="font-size:12.5px;color:var(--ink-3);margin-top:4px">${courseName(g.courseId)} · ${teacherName(g.teacherId)} · ${cnt} ${t('students').toLowerCase()}</div></div>
+     <button class="btn ghost sm" onclick="delItem('groups','${g.id}')">${ic('trash')}</button></div>
+   <div style="margin:12px 0 8px;font-size:12px;color:var(--ink-3)">${g.schedule||''}</div>
+   <div style="display:flex;align-items:center;gap:8px;justify-content:space-between"><span class="topic">${ic('book2')} ${g.topic||t('noData')}</span>
+     <button class="btn ghost sm" onclick="editTopic('${g.id}')">${ic('edit')} ${t('updateTopic')}</button></div>
+ </div>`;}).join('')}</div>`:es('👥',t('noData'),'',`<button class="btn" onclick="formGroup()">${ic('plus')} ${t('addGroup')}</button>`)}`;
 }
 function adminCourses(){
-  const st=s=>({published:['b-ok','Nashr etilgan'],draft:['b-neutral','Qoralama'],archived:['b-warn','Arxivlangan']})[s];
-  return `<p class="pageintro">Kurslarni yarating, tahrirlang va holatini boshqaring.</p>
-  <div style="display:flex;margin-bottom:14px"><button class="btn" style="margin-left:auto" onclick="toast('Kurs konstruktori')">${ic('plus')} Yangi kurs</button></div>
-  <div class="tw"><table><thead><tr><th>Kurs</th><th>Daraja</th><th>Holat</th><th>Talabalar</th><th>Narx (soʻm)</th><th>Oʻqituvchi</th><th></th></tr></thead><tbody>
-  ${DB.adminCourses.map(c=>{const[b,l]=st(c.st);return`<tr><td style="font-weight:600">${c.t}</td><td><span class="badge b-neutral">${c.lvl}</span></td>
-    <td><span class="badge ${b}">${l}</span></td><td class="num">${c.students}</td><td class="num">${c.price}</td><td>${c.teacher}</td>
-    <td><button class="btn ghost sm">${ic('edit')}</button></td></tr>`;}).join('')}
-  </tbody></table></div>`;
+ return `<p class="pageintro">${t('courses')} — ${DB.courses.length}</p>
+ <div style="display:flex;margin-bottom:14px"><button class="btn" style="margin-left:auto" onclick="formCourse()">${ic('plus')} ${t('addCourse')}</button></div>
+ <div class="grid g3">${DB.courses.map(c=>`<div class="card"><div style="display:flex;justify-content:space-between"><span style="font-size:30px">${c.emoji||'📘'}</span><button class="btn ghost sm" onclick="delItem('courses','${c.id}')">${ic('trash')}</button></div>
+   <h3 style="font-size:16px;margin:8px 0 2px">${c.title}</h3><div style="font-size:12.5px;color:var(--ink-3)">${c.level||''}</div>
+   <div class="mono" style="margin-top:8px;font-weight:600">${fmt(c.price)} soʻm</div></div>`).join('')}</div>`;
 }
-function adminAnalytics(){
-  return `<p class="pageintro">Chuqurroq koʻrsatkichlar — retention, churn va oʻqituvchi samaradorligi.</p>
-  <div class="grid g4" style="margin-bottom:16px">
-    ${kpi('Kunlik faol (DAU)','437','+6% kun',true,'user','#0E6F63')}
-    ${kpi('Kurs tugatish','63%','+4% oy',true,'cert','#2E8B62')}
-    ${kpi('Retention (90 kun)','81%','barqaror',true,'chart','#0B5A9C')}
-    ${kpi('Churn','4.2%','-0.8% oy',true,'users','#B7791F')}
-  </div>
-  <div class="grid g2">
-    <div class="card"><div class="ch"><h3>Talaba faolligi (video koʻrish soati)</h3></div>${lineChart([120,140,132,168,180,175,210,230,220,255,270,290],months,{color:'var(--brand-2)'})}</div>
-    <div class="card"><div class="ch"><h3>Oʻqituvchi samaradorligi</h3></div>
-      ${[['Ustoz Karimov',92],['Nodira Azizova',87],['Sardor Yusupov',79],['Malika Tosheva',74]].map(([t,p])=>`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${t}</span><b class="num">${p}%</b></div><div class="pbar"><i style="width:${p}%;background:var(--gold)"></i></div></div>`).join('')}
-    </div>
-  </div>`;
+function adminUsers(){
+ const rl={admin:t('roleAdmin'),finance:t('roleFinance'),teacher:t('roleTeacher'),student:t('roleStudent'),parent:t('roleParent')};
+ return `<p class="pageintro">${t('users')} — foydalanuvchi yarating va uning panelini (rolini) tanlang. U shu telefon/parol bilan kiradi.</p>
+ <div style="display:flex;margin-bottom:14px"><button class="btn" style="margin-left:auto" onclick="formUser()">${ic('plus')} ${t('addUser')}</button></div>
+ <div class="tw"><table><thead><tr><th>${t('name')}</th><th>${t('phone')}</th><th>${t('role')}</th><th>${t('password')}</th><th></th></tr></thead><tbody>
+ ${DB.users.map(u=>`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(u.name)}">${ini(u.name)}</span>${u.name}</div></td>
+   <td>${u.phone}</td><td><span class="badge b-brand">${rl[u.role]||u.role}</span></td><td class="mono">${u.password}</td>
+   <td>${u.role==='admin'&&DB.users.filter(x=>x.role==='admin').length<2?'':`<button class="btn ghost sm" onclick="delItem('users','${u.id}')">${ic('trash')}</button>`}</td></tr>`).join('')}
+ </tbody></table></div>`;
 }
-function adminPay(){
-  const rows=[['Amina Yusupova','Arab tili','300 000','paid','25-yan'],['Bekzod Aliyev','Ingliz tili','0','pending','20-yan'],['Sardor Umarov','Arab tili','150 000','overdue','10-yan'],['Malika Tosheva','Ingliz tili','240 000','partial','28-yan'],['Jasur Qodirov','Tajvid','380 000','paid','15-yan']];
-  return `<p class="pageintro">Toʻlovlarni holat, sana yoki kurs boʻyicha filtrlang. Provayder: Click / Payme / Uzum (abstraksiya).</p>
-  <div class="grid g4" style="margin-bottom:16px">
-    ${kpi('Bu oy yigʻilgan','104 mln','+8%',true,'cash','#2E8B62')}
-    ${kpi('Kutilayotgan','12 mln','8 talaba',false,'clock','#B7791F')}
-    ${kpi('Qarzdorlik','5.4 mln','3 talaba',false,'cash','#C0503F')}
-    ${kpi('Konversiya','78%','toʻlov',true,'chart','#0E6F63')}
-  </div>
-  <div class="filters"><span class="fchip on">Barchasi</span><span class="fchip">Toʻlangan</span><span class="fchip">Kutilmoqda</span><span class="fchip">Qarzdor</span></div>
-  <div class="tw"><table><thead><tr><th>Talaba</th><th>Kurs</th><th>Summa</th><th>Holat</th><th>Sana</th><th></th></tr></thead><tbody>
-  ${rows.map(([n,c,a,p,d])=>{const[b,l]=payBadge(p);return`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(n)}">${ini(n)}</span>${n}</div></td>
-    <td>${c}</td><td class="num">${a} soʻm</td><td><span class="badge ${b}">${l}</span></td><td>${d}</td>
-    <td><button class="btn ghost sm">${ic('eye')}</button></td></tr>`;}).join('')}
-  </tbody></table></div>`;
+function financeView(){
+ const collected=DB.payments.reduce((a,p)=>a+(+p.amount||0),0);
+ const expected=DB.students.reduce((a,s)=>a+(+s.coursePrice||0),0);
+ const debt=DB.students.reduce((a,s)=>a+Math.max(0,(+s.coursePrice||0)-(+s.paid||0)),0);
+ return `<p class="pageintro">${t('finance')} — toʻlovlarni kuzating va qoʻshing.</p>
+ <div class="grid g4" style="margin-bottom:16px">
+   ${kpi(t('collected'),fmt(collected)+' soʻm','cash','#2E8B62')}
+   ${kpi('Kutilayotgan',fmt(Math.max(0,expected-collected))+' soʻm','clock','#B7791F')}
+   ${kpi(t('debt'),fmt(debt)+' soʻm','cash','#C0503F')}
+   ${kpi(t('students'),DB.students.length,'users','#0E6F63')}</div>
+ <div style="display:flex;margin-bottom:14px"><button class="btn" style="margin-left:auto" onclick="formPayment()">${ic('plus')} ${t('addPayment')}</button></div>
+ ${DB.payments.length?`<div class="tw"><table><thead><tr><th>${t('students')}</th><th>${t('amount')}</th><th>${t('method')}</th><th>${t('date')}</th></tr></thead><tbody>
+ ${DB.payments.slice().reverse().map(p=>{const s=DB.students.find(x=>x.id===p.studentId);return `<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(s?s.name:'?')}">${ini(s?s.name:'?')}</span>${s?s.name:'—'}</div></td>
+   <td class="num" style="color:var(--ok);font-weight:600">+${fmt(p.amount)} soʻm</td><td>${p.method||'—'}</td><td>${p.date||''}</td></tr>`;}).join('')}
+ </tbody></table></div>`:es('💳',t('noData'),'',`<button class="btn" onclick="formPayment()">${ic('plus')} ${t('addPayment')}</button>`)}`;
 }
 
-/* ============================================================ VIEWS: PARENT */
-function parentDash(){
-  return `<p class="pageintro">Assalomu alaykum, <b>Zebo opa</b>. Farzandingiz <b>Amina</b>ning taʼlim jarayoni.</p>
-  <div class="card" style="margin-bottom:16px;display:flex;align-items:center;gap:14px">
-    <span class="avatar" style="width:52px;height:52px;font-size:18px;background:${avc('Amina Yusupova')}">AY</span>
-    <div style="flex:1"><h3 style="font-size:17px">Amina Yusupova</h3><div style="font-size:13px;color:var(--ink-3)">Arab tili · Ingliz tili · Tajvid · <span class="mono">NAT-2026-000123</span></div></div>
-    <div style="display:flex;gap:8px"><span class="badge b-ok dotb">Faol</span><span class="badge b-gold">🔥 7 kun</span></div>
-  </div>
-  <div class="grid g4" style="margin-bottom:16px">
-    ${kpi('Oʻzlashtirish','67%','+8% hafta',true,'chart','#0E6F63')}
-    ${kpi('Davomat','92%','aʼlo',true,'check','#2E8B62')}
-    ${kpi('Oʻrtacha baho','8.6','+0.4',true,'star','#B5842A')}
-    ${kpi('Keyingi toʻlov','25-yan','150 000 soʻm',false,'cash','#B7791F')}
-  </div>
-  <div class="grid g2">
-    <div class="card"><div class="ch"><h3>Kurslar boʻyicha progress</h3></div>
-      ${DB.courses.map(x=>`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px"><span>${x.t}</span><b class="num">${x.pct}%</b></div><div class="pbar"><i style="width:${x.pct}%;background:${x.c}"></i></div></div>`).join('')}
-      <div style="display:flex;gap:8px;margin-top:6px"><button class="btn ghost sm" onclick="toast('Davomat tafsiloti')">Davomat</button><button class="btn ghost sm" onclick="toast('Baholar')">Baholar</button></div>
-    </div>
-    <div class="card"><div class="ch"><h3>Oʻqituvchi izohlari</h3><span class="badge b-brand">Yangi</span></div>
-      ${DB.feedbacks.map(f=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><div style="display:flex;gap:9px;align-items:center;margin-bottom:6px"><span class="mini-av" style="background:${avc(f.t)}">${ini(f.t)}</span><b style="font-size:13.5px">${f.t}</b><span style="font-size:11.5px;color:var(--ink-3);margin-left:auto">${f.when}</span></div><p style="font-size:13.5px;color:var(--ink-2);margin:0">${f.m}</p></div>`).join('')}
-      <div style="padding:12px 0 0;display:flex;align-items:center;gap:8px;color:var(--ink-3);font-size:12.5px">${ic('tg','rings')} Bu izohlar Telegram orqali ham yuboriladi</div>
-    </div>
-  </div>`;
+/* ================= TEACHER ================= */
+function myGroupsOfTeacher(){return DB.groups.filter(g=>g.teacherId===SES.userId);}
+function teacherGroups(){const gs=myGroupsOfTeacher();
+ return `<p class="pageintro">${t('myGroups')} — ${gs.length}. Hozirgi mavzuni yangilab boring.</p>
+ ${gs.length?`<div class="grid g2">${gs.map(g=>{const cnt=DB.students.filter(s=>s.groupId===g.id).length;return `<div class="card">
+   <div><span class="badge b-brand mono">${g.code}</span> <b style="font-family:var(--fd)">${g.name||''}</b>
+     <div style="font-size:12.5px;color:var(--ink-3);margin-top:4px">${courseName(g.courseId)} · ${cnt} ${t('students').toLowerCase()} · ${g.schedule||''}</div></div>
+   <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:12px"><span class="topic">${ic('book2')} ${g.topic||t('noData')}</span>
+     <button class="btn ghost sm" onclick="editTopic('${g.id}')">${ic('edit')} ${t('updateTopic')}</button></div></div>`;}).join('')}</div>`
+ :es('📚',t('noData'),'Sizga guruh biriktirilgach shu yerda koʻrinadi.')}`;
+}
+function teacherStudents(){const gids=myGroupsOfTeacher().map(g=>g.id);const st=DB.students.filter(s=>gids.includes(s.groupId));
+ return `<p class="pageintro">${t('students')} — ${st.length}</p>
+ ${st.length?`<div class="tw"><table><thead><tr><th>${t('name')}</th><th>${t('group')}</th><th>${t('phone')}</th></tr></thead><tbody>
+ ${st.map(s=>`<tr><td><div class="tcell"><span class="mini-av" style="background:${avc(s.name)}">${ini(s.name)}</span>${s.name}</div></td><td class="mono">${groupName(s.groupId)}</td><td>${s.phone||'—'}</td></tr>`).join('')}
+ </tbody></table></div>`:es('🧑‍🎓',t('noData'),'Guruhingizga talaba qoʻshilgach koʻrinadi.')}`;
 }
 
-/* ============================================================ VIEW: DESIGN SYSTEM */
-function designDash(){
-  return `<p class="pageintro">Natiq Academy dizayn tizimi — barcha panellar shu komponentlardan quriladi. Izchil, minimalistik, premium.</p>
-  <div class="grid g2">
-    <div class="card"><div class="ch"><h3>Ranglar</h3></div>
-      <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:10px">
-        ${[['Brand','#0E6F63'],['Brand ink','#0A544B'],['Nur / gold','#B5842A'],['Ink','#1A211F'],['Success','#2E8B62'],['Warning','#B7791F'],['Danger','#C0503F'],['Purple','#6B4FA0']].map(([n,c])=>`<div><div style="height:48px;border-radius:10px;background:${c};border:1px solid var(--line)"></div><small style="font-size:11px;color:var(--ink-3);display:block;margin-top:4px">${n}<br><span class="mono">${c}</span></small></div>`).join('')}
-      </div></div>
-    <div class="card"><div class="ch"><h3>Tipografiya</h3></div>
-      <div style="font-family:var(--fd);font-size:30px;font-weight:700;letter-spacing:-.02em">Bricolage Grotesque</div>
-      <div style="color:var(--ink-3);font-size:12px;margin-bottom:14px">Display · sarlavhalar va KPI</div>
-      <div style="font-size:17px">IBM Plex Sans — asosiy matn oʻqilishi qulay va professional.</div>
-      <div class="mono" style="margin-top:10px;color:var(--brand-ink)">IBM Plex Mono · NAT-2026-000123</div></div>
-  </div>
-  <div class="card" style="margin-top:16px"><div class="ch"><h3>Tugmalar va nishonlar</h3></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
-      <button class="btn">${ic('plus')} Asosiy</button><button class="btn ghost">Ikkilamchi</button><button class="btn gold">${ic('cert')} Gold</button>
-      <button class="btn sm">Kichik</button></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <span class="badge b-ok dotb">Toʻlangan</span><span class="badge b-warn">Kutilmoqda</span><span class="badge b-bad">Muddati oʻtgan</span>
-      <span class="badge b-brand">Yangi</span><span class="badge b-gold">🔥 Streak</span><span class="badge b-purple">Beta</span><span class="badge b-neutral">Qoralama</span></div>
-  </div>
-  <div class="grid g3" style="margin-top:16px">
-    <div class="card"><div class="ch"><h3>Progress</h3></div>
-      <div style="display:flex;gap:16px;align-items:center"><div class="ring" style="--p:72;--s:64px"><b>72%</b></div>
-      <div style="flex:1"><div class="pbar" style="margin-bottom:10px"><i style="width:72%"></i></div><div class="pbar gold"><i style="width:45%"></i></div></div></div></div>
-    <div class="card"><div class="ch"><h3>Skeleton (yuklanish)</h3></div>
-      <div class="sk" style="height:14px;width:80%;margin-bottom:9px"></div><div class="sk" style="height:14px;width:60%;margin-bottom:9px"></div><div class="sk" style="height:40px;width:100%"></div></div>
-    <div class="card"><div class="ch"><h3>Empty state</h3></div>
-      <div class="empty" style="padding:14px 6px"><div class="e-ic">📭</div><b>Hozircha boʻsh</b>Bu yerda hozircha kurslar mavjud emas.</div></div>
-  </div>
-  <div class="card" style="margin-top:16px"><div class="ch"><h3>Toast, Tabs va Tooltip</h3></div>
-    <div class="tabs"><button class="tab on">Umumiy</button><button class="tab">Darslar</button><button class="tab">Baholar</button></div>
-    <button class="btn ghost" onclick="toast('Bu — toast bildirishnoma ✓')">Toast koʻrsatish</button></div>`;
+/* ================= STUDENT ================= */
+function studentRecord(){const u=currentUser();return DB.students.find(s=>s.phone&&u.phone&&s.phone.replace(/\s/g,'')===u.phone.replace(/\s/g,''));}
+function studentDash(){const u=currentUser();const rec=studentRecord();
+ const g=rec&&rec.groupId?DB.groups.find(x=>x.id===rec.groupId):null;
+ return `<p class="pageintro">${t('welcome')}, <b>${u.name}</b> 👋</p>
+ <div class="grid g2">
+   <div class="card"><div class="ch"><h3>${t('myGroup')}</h3></div>
+     ${g?`<div style="font-size:15px;font-weight:600">${g.code} · ${g.name||''}</div>
+       <div style="font-size:13px;color:var(--ink-3);margin:4px 0 12px">${courseName(g.courseId)} · ${teacherName(g.teacherId)} · ${g.schedule||''}</div>
+       <div style="font-size:12px;color:var(--ink-3);margin-bottom:5px">${t('topic')}:</div><span class="topic">${ic('book2')} ${g.topic||t('noData')}</span>`
+     :es('📚',t('noData'),'Guruhga biriktirilgach shu yerda koʻrinadi.')}</div>
+   <div class="card"><div class="ch"><h3>${t('paymentStatus')}</h3></div>
+     ${rec?`<div style="font-size:13px;display:grid;grid-template-columns:1fr auto;gap:7px 10px">
+       <span>${t('course')}</span><b>${courseName(rec.courseId)}</b>
+       <span>${t('price')}</span><b class="num">${fmt(rec.coursePrice)} soʻm</b>
+       <span>${t('balance')}</span><b class="num" style="color:var(--ok)">${fmt(rec.paid)} soʻm</b>
+       <span>${t('debt')}</span><b class="num" style="color:var(--bad)">${fmt(Math.max(0,(rec.coursePrice||0)-(rec.paid||0)))} soʻm</b></div>`
+     :es('💳',t('noData'),'Profilingiz admin tomonidan toʻldirilgach koʻrinadi.')}</div>
+ </div>`;
 }
+function parentDash(){return `<p class="pageintro">${t('welcome')}</p>${es('👨‍👩‍👧',t('noData'),'Farzandingiz hisobingizga bogʻlangach, uning maʼlumotlari shu yerda koʻrinadi.')}`;}
 
-/* ============================================================ PUBLIC SITE */
-function site(){
-  const courses=[
-    {t:'Arab tili',em:'🕌',bg:'var(--brand-soft)',lvl:'Beginner → Advanced',dur:'6 oy',price:'450 000'},
-    {t:'Ingliz tili',em:'🇬🇧',bg:'#DCE8F4',lvl:'Elementary → IELTS',dur:'8 oy',price:'480 000'},
-    {t:'Tajvid asoslari',em:'📖',bg:'var(--gold-soft)',lvl:'Boshlangʻich',dur:'3 oy',price:'380 000'},
-    {t:'Matematika',em:'📐',bg:'var(--purple-soft)',lvl:'Milliy sertifikat',dur:'9 oy',price:'500 000'},
-  ];
-  const teachers=[['Ustoz Karimov','Arab tili · Tajvid','12 yil tajriba'],['Nodira Azizova','Ingliz tili · IELTS 8.0','8 yil tajriba'],['Sardor Yusupov','Matematika','10 yil tajriba']];
-  const feats=[['book','Tuzilgan oʻquv dasturi','Modul → Dars → Test → Vazifa. Har qadam izchil va tekshirilgan.'],
-    ['play','Video va interaktiv darslar','Toʻxtagan joyingizdan davom eting, progress avtomatik saqlanadi.'],
-    ['users','Tajribali ustozlar','Har bir talabaga individual eʼtibor va jonli fikr-mulohaza.'],
-    ['cert','Rasmiy sertifikat','QR kod bilan tekshiriladigan, ishonchli yakuniy sertifikat.'],
-    ['tg','Telegram integratsiyasi','Dars, vazifa va toʻlov eslatmalari toʻgʻridan-toʻgʻri Telegram’da.'],
-    ['chart','Aniq natija','Progress, davomat va baholar ota-onaga ham shaffof koʻrinadi.']];
-  return `<div class="site"><nav class="snav"><div class="in">
-    <div style="display:flex;align-items:center;gap:10px">${GLYPH}<div><b style="font-family:var(--fd);font-size:15px">Natiq Academy</b></div></div>
-    <div class="links"><a href="#courses">Kurslar</a><a href="#why">Nega biz</a><a href="#how">Qanday ishlaydi</a><a href="#teachers">Ustozlar</a><a href="#faq">FAQ</a></div>
-    <div class="r"><button class="btn ghost sm" onclick="setPersona('student')">Kirish</button><button class="btn sm" onclick="scrollToId('cta')">Bepul dars</button></div>
-  </div></nav>
-
-  <div class="sect"><div class="hero">
-    <div><div class="eyebrow">Zamonaviy taʼlim akademiyasi</div>
-      <h1>Ilm olishning<br>zamonaviy usuli</h1>
-      <p>Arab tili, ingliz tili va boshqa yoʻnalishlarda tuzilgan onlayn kurslar — jonli ustozlar, interaktiv darslar va aniq natija bilan.</p>
-      <div class="cta"><button class="btn" onclick="scrollToId('courses')">${ic('book')} Kurslarni koʻrish</button>
-        <button class="btn ghost" onclick="scrollToId('cta')">Bepul darsga yozilish</button></div>
-      <div style="display:flex;gap:22px;margin-top:26px;font-size:13px;color:var(--ink-3)">
-        <span>✓ Sertifikat</span><span>✓ Telegram bot</span><span>✓ Ota-ona nazorati</span></div>
-    </div>
-    <div class="hero-card">
-      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--brand);font-weight:600"><span style="width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block"></span>JONLI DARS · BUGUN 19:00</div>
-      <h3 style="font-size:19px;margin:10px 0 3px">Arab tili — Beginner</h3>
-      <div style="font-size:12.5px;color:var(--ink-3)">14-dars · Ustoz Karimov</div>
-      <div style="display:flex;align-items:center;gap:14px;margin:16px 0">
-        <div class="ring" style="--p:72;--s:72px"><b>72%</b></div>
-        <div><div style="font-size:13px;color:var(--ink-2)">24 / 36 dars yakunlandi</div>
-        <div style="display:flex;gap:6px;margin-top:8px"><span class="badge b-gold">🔥 7 kun</span><span class="badge b-brand">⭐ 1240 XP</span></div></div>
-      </div>
-      <button class="btn full" onclick="setPersona('student')">${ic('play')} Panelni koʻrish</button>
-    </div>
-  </div>
-  <div class="statbar"><div><b class="num">2 400+</b><span>faol oʻquvchi</span></div><div><b class="num">18</b><span>kurs yoʻnalishi</span></div><div><b class="num">96%</b><span>tavsiya darajasi</span></div><div><b class="num">40+</b><span>tajribali ustoz</span></div></div>
-  </div>
-
-  <div class="sect block" id="courses"><h2>Ommabop kurslar</h2><p class="lead">Har bir kurs modullarga boʻlingan: video, test, uy vazifasi va jonli darslar bilan.</p>
-    <div class="grid g4">${courses.map(c=>`<div class="ccard"><div class="top" style="background:${c.bg}">${c.em}</div>
-      <div class="bd"><h4>${c.t}</h4><div style="font-size:12.5px;color:var(--ink-3)">${c.lvl}</div>
-        <div class="meta"><span>${ic('clock','rings')} ${c.dur}</span><span class="mono">${c.price} soʻm</span></div>
-        <button class="btn ghost full sm" onclick="scrollToId('cta')">Batafsil</button></div></div>`).join('')}</div></div>
-
-  <div class="sect block" id="why" style="background:var(--surface-2);border-radius:22px;padding:44px"><h2>Nega Natiq Academy?</h2><p class="lead">Zamonaviy platforma va tajribali ustozlar — bir joyda.</p>
-    <div class="grid g3">${feats.map(([i,t,d])=>`<div class="feat"><span class="fi">${ic(i)}</span><div><b>${t}</b><p>${d}</p></div></div>`).join('')}</div></div>
-
-  <div class="sect block" id="how"><h2>Qanday ishlaydi</h2><p class="lead">Toʻrt oddiy qadamda oʻrganishni boshlang.</p>
-    <div class="steps">
-      ${[['Yoziling','Bepul sinov darsiga onlayn yoziling'],['Kurs tanlang','Darajangizga mos yoʻnalishni tanlang'],['Oʻrganing','Video, jonli dars, test va vazifalar'],['Sertifikat','Kursni yakunlab, QR sertifikat oling']].map(([t,d],i)=>`<div class="step"><div class="no">${i+1}</div><b>${t}</b><p>${d}</p></div>`).join('')}
-    </div></div>
-
-  <div class="sect block" id="teachers"><h2>Ustozlarimiz</h2><p class="lead">Har biri oʻz sohasining tajribali mutaxassisi.</p>
-    <div class="grid g3">${teachers.map(([n,s,e])=>`<div class="tcard"><div style="display:flex;align-items:center;gap:13px"><span class="avatar" style="width:52px;height:52px;font-size:18px;background:${avc(n)}">${ini(n)}</span><div><h4 style="font-size:16px">${n}</h4><div style="font-size:12.5px;color:var(--ink-3)">${s}</div></div></div>
-      <div style="margin-top:12px;font-size:13px;color:var(--ink-2)">${e} · <span class="badge b-gold">⭐ 4.9</span></div></div>`).join('')}</div></div>
-
-  <div class="sect block"><div class="grid g3">
-    <div class="tcard"><div class="q">“Arab tilini noldan boshlagan edim, 6 oyda Qur'onni tushunib oʻqiy boshladim. Ustozlar juda saboqli.”</div><div class="who"><span class="mini-av" style="background:${avc('Aziza K')}">AK</span><div><b style="font-size:13.5px">Aziza Karimova</b><div style="font-size:12px;color:var(--ink-3)">Arab tili bitiruvchisi</div></div></div></div>
-    <div class="tcard"><div class="q">“Telegram bot orqali farzandimning davomati va baholarini kuzatib boraman. Juda qulay va shaffof.”</div><div class="who"><span class="mini-av" style="background:${avc('Bobur T')}">BT</span><div><b style="font-size:13.5px">Bobur Tohirov</b><div style="font-size:12px;color:var(--ink-3)">Ota-ona</div></div></div></div>
-    <div class="tcard"><div class="q">“IELTS 7.5 oldim! Interaktiv testlar va jonli darslar juda samarali boʻldi.”</div><div class="who"><span class="mini-av" style="background:${avc('Doston M')}">DM</span><div><b style="font-size:13.5px">Doston Mirzayev</b><div style="font-size:12px;color:var(--ink-3)">Ingliz tili bitiruvchisi</div></div></div></div>
-  </div></div>
-
-  <div class="sect block" id="faq"><h2>Koʻp beriladigan savollar</h2><div class="faq" style="margin-top:20px;max-width:760px">
-    ${[['Kurslar qancha davom etadi?','Yoʻnalishga qarab 3 oydan 9 oygacha. Har kurs modullarga boʻlingan va oʻz tezligingizda oʻrganasiz.'],
-      ['Darslar jonlimi yoki yozib olinganmi?','Ikkalasi ham. Yozib olingan video darslar istalgan vaqtda, jonli darslar esa jadval boʻyicha oʻtiladi.'],
-      ['Toʻlovni qanday amalga oshiraman?','Click, Payme yoki Uzum orqali onlayn. Boʻlib toʻlash imkoniyati ham mavjud.'],
-      ['Sertifikat beriladimi?','Ha, kursni muvaffaqiyatli yakunlagach QR kod bilan tekshiriladigan rasmiy sertifikat olasiz.'],
-      ['Ota-onalar nazorat qila oladimi?','Albatta. Ota-ona alohida panel orqali farzandi progressi, davomati va toʻlovini koʻradi.']].map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('')}
-  </div></div>
-
-  <div class="sect" id="cta"><div class="ctaband"><h2>Bugun bepul darsdan boshlang</h2><p>Bir daqiqada roʻyxatdan oʻting va birinchi darsingizni bepul sinab koʻring. Hech qanday majburiyat yoʻq.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn gold" onclick="toast('Roʻyxatdan oʻtish formasi ochildi')">${ic('send')} Bepul darsga yozilish</button>
-    <button class="btn ghost" style="background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)" onclick="setPersona('student')">Demoni koʻrish</button></div></div></div>
-
-  <footer class="sfoot"><div class="in">
-    <div><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">${GLYPH}<b style="font-family:var(--fd)">Natiq Academy</b></div>
-      <p style="font-size:13px;color:var(--ink-3);margin:0;max-width:34ch">Ilm olishning zamonaviy usuli. Toshkent, Oʻzbekiston.</p></div>
-    <div><h5>Platforma</h5><a onclick="scrollToId('courses')">Kurslar</a><a onclick="scrollToId('teachers')">Ustozlar</a><a onclick="setPersona('student')">Kirish</a></div>
-    <div><h5>Kompaniya</h5><a onclick="scrollToId('why')">Biz haqimizda</a><a onclick="scrollToId('faq')">FAQ</a><a>Aloqa</a></div>
-    <div><h5>Rollar demosi</h5><a onclick="setPersona('teacher')">Oʻqituvchi</a><a onclick="setPersona('admin')">Admin</a><a onclick="setPersona('parent')">Ota-ona</a></div>
-  </div><div class="copy">© 2026 Natiq Academy · Barcha huquqlar himoyalangan · Prototip v0.1</div></footer>
-  </div>`;
-}
-
-/* ============================================================ ROUTER */
+/* ================= ROUTER ================= */
 const VIEWS={
-  student:{dash:['Boshqaruv paneli','Bugungi oʻquv jarayoni',studentDash],courses:['Mening kurslarim','3 ta faol kurs',studentCourses],hw:['Uy vazifalari','2 ta faol vazifa',studentHw],att:['Davomat','92% umumiy davomat',studentAtt]},
-  teacher:{dash:['Boshqaruv paneli','Bugungi darslar va vazifalar',teacherDash],review:['Vazifa tekshiruvi','4 ta vazifa navbatda',teacherReview],att:['Davomat','Guruh: AR-B1',teacherAtt],groups:['Guruhlarim','3 ta guruh',teacherGroups]},
-  admin:{dash:['KPI paneli','Akademiya koʻrsatkichlari',adminDash],students:['Talabalar','690 ta talaba',adminStudents],courses:['Kurslar','Kurs boshqaruvi',adminCourses],analytics:['Analitika','Chuqur koʻrsatkichlar',adminAnalytics],pay:['Toʻlovlar','Moliyaviy holat',adminPay]},
-  parent:{dash:['Boshqaruv paneli','Farzand: Amina',parentDash]},
-  design:{dash:['Dizayn tizimi','Komponentlar kutubxonasi',designDash]},
+ dash:[adminDash,()=>t('dashboard')],students:[adminStudents,()=>t('students')],groups:[adminGroups,()=>t('groups')],
+ courses:[adminCourses,()=>t('courses')],finance:[financeView,()=>t('finance')],usersv:[adminUsers,()=>t('users')],
+ tgroups:[teacherGroups,()=>t('myGroups')],tstudents:[teacherStudents,()=>t('students')],
+ sdash:[studentDash,()=>t('dashboard')],pdash:[parentDash,()=>t('dashboard')],
 };
+const DEFAULT_VIEW={admin:'dash',finance:'finance',teacher:'tgroups',student:'sdash',parent:'pdash'};
+let STATE={screen:'public',view:null,q:''};
+function setView(v){STATE.view=v;STATE.q='';render();const c=document.querySelector('.content');if(c)c.scrollTo(0,0);}
 function render(){
-  const root=document.getElementById('root');
-  if(STATE.persona==='site'){root.innerHTML=site();window.scrollTo(0,0);return;}
-  const v=VIEWS[STATE.persona][STATE.view]||VIEWS[STATE.persona].dash;
-  root.innerHTML=shell(STATE.persona,v[2](),v[0],v[1]);
+ const root=document.getElementById('root');const per=document.getElementById('persona');per.style.display='none';document.body.style.paddingTop='0';
+ if(SES){ // logged in
+   if(!STATE.view||!ROLE_NAV[SES.role].some(n=>n[0]===STATE.view))STATE.view=DEFAULT_VIEW[SES.role];
+   STATE.q=(document.getElementById('q-st')||{}).value||STATE.q;
+   const vf=VIEWS[STATE.view];root.innerHTML=shell(vf[0](),vf[1]());return;
+ }
+ if(STATE.screen==='login'){root.innerHTML=loginView();return;}
+ root.innerHTML=publicSite();
 }
-function go(p,v){STATE.persona=p;STATE.view=v;render();document.querySelector('.content')?.scrollTo(0,0);window.scrollTo(0,0);}
-function setPersona(p){STATE.persona=p;STATE.view='dash';renderPersona();render();window.scrollTo(0,0);}
-function pickAtt(el){el.parentElement.querySelectorAll('.fchip').forEach(c=>{c.classList.remove('on');c.style.background='';c.style.borderColor='';});el.classList.add('on');el.style.background='var(--brand)';el.style.borderColor='transparent';}
-function scrollToId(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
-function toggleTheme(){const r=document.documentElement;const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',cur==='dark'?'light':'dark');toast(cur==='dark'?'Kunduzgi rejim':'Tungi rejim');}
-
-/* persona switcher */
-const PERSONAS=[['site','Ommaviy sayt'],['student','Talaba'],['teacher','Oʻqituvchi'],['admin','Admin'],['parent','Ota-ona'],['design','Dizayn']];
-function renderPersona(){document.getElementById('persona').innerHTML='<span class="plab">Demo koʻrinish</span>'+PERSONAS.map(([k,l])=>`<button class="${STATE.persona===k?'on':''}" onclick="setPersona('${k}')"><span class="pdot"></span>${l}</button>`).join('');}
-renderPersona();render();
+load();render();
 </script>
