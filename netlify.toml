@@ -1,0 +1,15 @@
+# ============================================================================
+#  Netlify konfiguratsiyasi — Next.js + Prisma.
+#  Build paytida: Prisma client generatsiya -> baza sxemasini yaratish (db push)
+#  -> boshlang'ich ma'lumot (seed) -> Next.js build.
+#  Baza: tashqi Postgres (Neon). DATABASE_URL ni Netlify env'da kiriting.
+# ============================================================================
+[build]
+  command = "npm run netlify-build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Next.js runtime plagini (Netlify avtomatik o'rnatadi)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
