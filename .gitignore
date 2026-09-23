@@ -1,9 +1,3 @@
 node_modules
-.next
-.env
-.env.local
-*.log
-dist
 .DS_Store
-/prisma/*.db
-next-env.d.ts
+.vercel
